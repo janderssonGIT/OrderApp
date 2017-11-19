@@ -1,0 +1,36 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="signInTheme" parent="TextAppearance.AppCompat">
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">#ffffff</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColorHighlight">#ffffff</item>
+        <item name="colorAccent">#ffffff</item>
+        <item name="colorControlNormal">#dcdcdc</item>
+        <item name="colorControlActivated">#ffffff</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="android:textColorSecondary">#ffffff</item>
+    </style>
+
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="searchIcon">@android:drawable/ic_menu_search</item>
+        <item name="queryBackground">@android:color/white</item>
+        <item name="searchHintIcon">@null</item>
+        <item name="queryHint">@string/assortment_search_hint</item>
+    </style>
+
+    <style name="ThemeOverlay.OrderApp.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:paddingStart">@dimen/toolbar_title_padding</item>
+    </style>
+
+</resources>

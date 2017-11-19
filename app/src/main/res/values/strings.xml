@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">OrderApp</string>
+    <string name="home_title">Huvudmeny</string>
+    <string name="login">Logga in</string>
+    <string name="logout">Logga ut</string>
+    <string name="email">Email:</string>
+    <string name="password">Lösenord:</string>
+    <string name="home_order">Skapa Order</string>
+    <string name="home_order_history">Orderhistorik</string>
+    <string name="assortment_title">Skapa Order</string>
+    <string name="assortment_search_hint">Sök artikel</string>
+    <string name="settings">Inställningar</string>
+</resources>
