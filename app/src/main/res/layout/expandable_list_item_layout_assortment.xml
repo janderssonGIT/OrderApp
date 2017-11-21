@@ -84,7 +84,6 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TableRow>
-
                         <TextView
                             android:id="@+id/header1"
                             android:layout_width="wrap_content"
@@ -93,7 +92,6 @@
                     </TableRow>
 
                     <TableRow>
-
                         <TextView
                             android:id="@+id/content1"
                             android:layout_width="wrap_content"
@@ -103,7 +101,6 @@
                     </TableRow>
 
                     <TableRow>
-
                         <TextView
                             android:id="@+id/header2"
                             android:layout_width="wrap_content"
@@ -112,7 +109,6 @@
                     </TableRow>
 
                     <TableRow>
-
                         <TextView
                             android:id="@+id/content2"
                             android:layout_width="wrap_content"
