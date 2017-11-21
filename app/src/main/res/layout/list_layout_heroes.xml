@@ -21,12 +21,13 @@
                 android:padding="10dp"
                 android:text="Iron Man"
                 android:textAlignment="textStart"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse" />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
+                android:visibility="visible"/>
 
             <LinearLayout
                 android:animateLayoutChanges="true"
                 android:id="@+id/linearLayout"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
