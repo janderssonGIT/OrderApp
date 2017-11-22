@@ -39,12 +39,14 @@ public class AssortmentAdapter extends RecyclerView.Adapter<AssortmentAdapter.Ar
         Article article = articleList.get(position);
 
         //FIX
-        holder.header1.setText(article.getProductName());
-        holder.content1.setText(article.getProductName());
-        holder.header2.setText(article.getProductName());
-        holder.content2.setText(article.getProductName());
+        holder.articleNameHeader.setText(article.getProductName());
+        holder.articleNumberHeader.setText(String.valueOf(article.getArticleNumber()));
+        holder.header1.setText("Beskrivning");
+        holder.content1.setText(article.getDescription());
+        holder.header2.setText("Kvantitet");
+        holder.content2.setText(String.valueOf(article.getStock()));
 
-        holder.SecondInnerConstraintLayout.setVisibility(View.GONE);
+        holder.secondInnerConstraintLayout.setVisibility(View.GONE);
 
         //if the position is equals to the item position which is to be expanded
         if (currentPosition == position) {
@@ -52,10 +54,10 @@ public class AssortmentAdapter extends RecyclerView.Adapter<AssortmentAdapter.Ar
             Animation slideDown = AnimationUtils.loadAnimation(mContext, R.anim.slide_down);
 
             //toggling visibility
-            holder.SecondInnerConstraintLayout.setVisibility(View.VISIBLE);
+            holder.secondInnerConstraintLayout.setVisibility(View.VISIBLE);
 
             //adding sliding effect
-            holder.SecondInnerConstraintLayout.startAnimation(slideDown);
+            holder.secondInnerConstraintLayout.startAnimation(slideDown);
         }
 
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
@@ -77,15 +79,17 @@ public class AssortmentAdapter extends RecyclerView.Adapter<AssortmentAdapter.Ar
     }
 
     class ArticleViewHolder extends RecyclerView.ViewHolder {
-        TextView header1, content1,
-            header2, content2;
-
+        TextView articleNameHeader, articleNumberHeader,
+                header1, content1,
+                header2, content2;
         ImageButton imageButton;
-
-        ConstraintLayout SecondInnerConstraintLayout;
+        ConstraintLayout secondInnerConstraintLayout;
 
         ArticleViewHolder(View itemView) {
             super(itemView);
+
+            articleNameHeader = itemView.findViewById(R.id.ArticleNameHeader);
+            articleNumberHeader = itemView.findViewById(R.id.ArticleNumberHeader);
 
             header1 = itemView.findViewById(R.id.header1);
             content1 =  itemView.findViewById(R.id.content1);
@@ -95,7 +99,7 @@ public class AssortmentAdapter extends RecyclerView.Adapter<AssortmentAdapter.Ar
 
             imageButton = itemView.findViewById(R.id.imageButton);
 
-            SecondInnerConstraintLayout = itemView.findViewById(R.id.SecondInnerConstraintLayout);
+            secondInnerConstraintLayout = itemView.findViewById(R.id.SecondInnerConstraintLayout);
         }
     }
 }

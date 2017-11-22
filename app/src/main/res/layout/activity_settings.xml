@@ -38,12 +38,6 @@
         android:orientation="horizontal"
         android:gravity="center|left"
         android:layout_marginStart="12dp">
-
-        <Button
-            android:id="@+id/back_btn_admin"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_back_arrow" />
     </LinearLayout>
 
     <LinearLayout

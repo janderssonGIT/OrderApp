@@ -9,7 +9,8 @@
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    app:layout_scrollFlags="scroll|enterAlways|snap">
+    app:layout_scrollFlags="scroll|enterAlways|snap"
+    app:collapseIcon="@drawable/ic_group_collapse_00">
 
     <ImageButton
         android:id="@+id/settingsButton"
@@ -30,7 +31,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_gravity="end"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </android.support.v7.widget.Toolbar>
 
