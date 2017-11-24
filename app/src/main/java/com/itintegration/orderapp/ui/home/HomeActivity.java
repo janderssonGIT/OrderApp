@@ -10,8 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.support.v7.widget.AppCompatImageButton;
 
 import com.itintegration.orderapp.R;
 import com.itintegration.orderapp.ui.assortment.AssortmentActivity;
@@ -44,7 +43,7 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, AssortmentActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
     }
@@ -54,7 +53,8 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         setSupportActionBar(bar);
         getSupportActionBar().setTitle(R.string.home_title);
 
-        ImageButton settings_btn = findViewById(R.id.settingsButton);
+        AppCompatImageButton settings_btn = findViewById(R.id.settingsButton);
+        settings_btn.setVisibility(View.VISIBLE);
         settings_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +78,7 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             case R.id.popupSettings:
                 intent = new Intent(mContext, SettingsActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 return true;
             case R.id.popupLogout:
                 intent = new Intent(mContext, SignInActivity.class);

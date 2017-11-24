@@ -12,25 +12,15 @@
     app:layout_scrollFlags="scroll|enterAlways|snap"
     app:collapseIcon="@drawable/ic_group_collapse_00">
 
-    <ImageButton
+    <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/settingsButton"
-        android:elevation="8dp"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="end"
         android:layout_marginEnd="12dp"
         android:layout_marginTop="14dp"
-        android:contentDescription="admin"
         android:background="@drawable/ic_settings_cog"
-        android:visibility="visible"/>
-
-    <android.support.v7.widget.SearchView
-        android:id="@+id/toolbar_searchView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="end"
+        android:contentDescription="admin"
         android:visibility="gone" />
 
 </android.support.v7.widget.Toolbar>

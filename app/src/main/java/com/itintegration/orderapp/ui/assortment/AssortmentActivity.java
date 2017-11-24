@@ -7,9 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 
 import com.itintegration.orderapp.R;
 import com.itintegration.orderapp.data.model.Article;
@@ -21,6 +20,7 @@ public class AssortmentActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     AssortmentAdapter assortmentAdapter;
     List<Article> articleList;
+    private Menu mOptionsMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +37,15 @@ public class AssortmentActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setTitle(R.string.assortment_title);
         ab.setDisplayHomeAsUpEnabled(true);
+    }
 
-        ImageButton btn = bar.findViewById(R.id.settingsButton);
-        btn.setVisibility(View.GONE); //TODO : set to gone by default
-        btn.setActivated(false);
-
-        final SearchView sv = findViewById(R.id.toolbar_searchView);
-        sv.setVisibility(View.VISIBLE);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        mOptionsMenu = menu;
+        getMenuInflater().inflate(R.menu.toolbar_assortment, mOptionsMenu);
+        SearchView sv = (SearchView) menu.findItem(R.id.action_search).getActionView();
         sv.setMaxWidth(Integer.MAX_VALUE);
+        return true;
     }
 
     /**
@@ -55,12 +56,13 @@ public class AssortmentActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                SearchView sv = findViewById(R.id.toolbar_searchView);
+                SearchView sv = (SearchView) mOptionsMenu.findItem(R.id.action_search).getActionView();
                 if (sv.getQuery().length() > 0) {
                     sv.setQuery("", true);
                     return false;
                 } else {
                     onBackPressed();
+                    overridePendingTransition(R.anim.left_in, R.anim.right_out);
                     return true;
                 }
         }
