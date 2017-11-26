@@ -1,4 +1,4 @@
-package com.itintegration.orderapp.ui.assortment;
+package com.itintegration.orderapp.ui.assortment.test;
 
 import android.graphics.drawable.NinePatchDrawable;
 import android.os.Build;
@@ -20,9 +20,11 @@ import com.h6ah4i.android.widget.advrecyclerview.decoration.ItemShadowDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
+import com.itintegration.orderapp.data.test.AbstractDataProvider;
 
-public class AssortmentFragment extends Fragment implements RecyclerViewExpandableItemManager.OnGroupCollapseListener,
+public class NewAssortmentFragment extends Fragment implements RecyclerViewExpandableItemManager.OnGroupCollapseListener,
         RecyclerViewExpandableItemManager.OnGroupExpandListener {
+
     private static final String SAVED_STATE_EXPANDABLE_ITEM_MANAGER = "RecyclerViewExpandableItemManager";
 
     private RecyclerView mRecyclerView;
@@ -30,7 +32,7 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewExpandableItemManager mRecyclerViewExpandableItemManager;
 
-    public AssortmentFragment() {
+    public NewAssortmentFragment() {
         super();
     }
 
@@ -53,22 +55,19 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
         mRecyclerViewExpandableItemManager.setOnGroupCollapseListener(this);
 
         //adapter
-        final ExpandableExampleAdapter myItemAdapter = new ExpandableExampleAdapter(getDataProvider());
-
-        mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(myItemAdapter);       // wrap for expanding
-
+        final NewAssortmentAdapter myItemAdapter = new NewAssortmentAdapter(getDataProvider());
+        mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(myItemAdapter); // wrap for expanding
         final GeneralItemAnimator animator = new RefactoredDefaultItemAnimator();
 
         // Change animations are enabled by default since support-v7-recyclerview v22.
         // Need to disable them when using animation indicator.
         animator.setSupportsChangeAnimations(false);
-
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mWrappedAdapter);  // requires *wrapped* adapter
         mRecyclerView.setItemAnimator(animator);
         mRecyclerView.setHasFixedSize(false);
 
-        // additional decorations
+        //additional decorations
         //noinspection StatementWithEmptyBody
         if (supportsViewElevation()) {
             // Lollipop or later has native drop shadow feature. ItemShadowDecorator is not required.
@@ -135,5 +134,9 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
 
     private boolean supportsViewElevation() {
         return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
+    }
+
+    public AbstractDataProvider getDataProvider() {
+        return ((NewAssortmentActivity) getActivity()).getDataProvider();
     }
 }
