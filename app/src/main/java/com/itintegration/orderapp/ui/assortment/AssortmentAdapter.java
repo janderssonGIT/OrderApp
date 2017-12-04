@@ -12,19 +12,19 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.itintegration.orderapp.R;
-import com.itintegration.orderapp.data.model.Article;
+import com.itintegration.orderapp.data.model.ArticleSwe;
 
 import java.util.List;
 
 public class AssortmentAdapter extends RecyclerView.Adapter<AssortmentAdapter.ArticleViewHolder>{
 
-    private List<Article> articleList;
+    private List<ArticleSwe> articleSweList;
     private Context mContext;
 
     private static int currentPosition = 0;
 
-    public AssortmentAdapter(List<Article> articleList, Context mContext) {
-        this.articleList = articleList;
+    public AssortmentAdapter(List<ArticleSwe> articleSweList, Context mContext) {
+        this.articleSweList = articleSweList;
         this.mContext = mContext;
     }
 
@@ -36,15 +36,15 @@ public class AssortmentAdapter extends RecyclerView.Adapter<AssortmentAdapter.Ar
 
     @Override
     public void onBindViewHolder(AssortmentAdapter.ArticleViewHolder holder, final int position) {
-        Article article = articleList.get(position);
+        ArticleSwe articleSwe = articleSweList.get(position);
 
         //FIX
-        holder.articleNameHeader.setText(article.getProductName());
-        holder.articleNumberHeader.setText(String.valueOf(article.getArticleNumber()));
+        holder.articleNameHeader.setText(articleSwe.getProductName());
+        holder.articleNumberHeader.setText(String.valueOf(articleSwe.getArticleNumber()));
         holder.header1.setText("Beskrivning");
-        holder.content1.setText(article.getDescription());
+        holder.content1.setText(articleSwe.getDescription());
         holder.header2.setText("Kvantitet");
-        holder.content2.setText(String.valueOf(article.getStock()));
+        holder.content2.setText(String.valueOf(articleSwe.getStock()));
 
         holder.secondInnerConstraintLayout.setVisibility(View.GONE);
 
@@ -75,7 +75,7 @@ public class AssortmentAdapter extends RecyclerView.Adapter<AssortmentAdapter.Ar
 
     @Override
     public int getItemCount() {
-        return articleList.size();
+        return articleSweList.size();
     }
 
     class ArticleViewHolder extends RecyclerView.ViewHolder {

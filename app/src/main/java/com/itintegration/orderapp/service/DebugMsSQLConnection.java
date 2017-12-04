@@ -6,6 +6,8 @@ import android.util.Log;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Jim Andersson on 2017-11-08.

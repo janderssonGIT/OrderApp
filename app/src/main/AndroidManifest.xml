@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
         <activity android:name=".ui.signin.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:parentActivityName=".ui.signin.SignInActivity">
@@ -27,7 +29,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.itintegration.orderapp.ui.signin.SignInActivity" />
         </activity>
+
         <activity android:name=".ui.home.HomeActivity" />
+
         <activity android:name=".ui.assortment.AssortmentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -36,6 +40,16 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.assortment.test.NewAssortmentActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

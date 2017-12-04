@@ -1,5 +1,6 @@
 package com.itintegration.orderapp.ui.assortment.test;
 
+import android.content.Context;
 import android.graphics.drawable.NinePatchDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,7 +21,7 @@ import com.h6ah4i.android.widget.advrecyclerview.decoration.ItemShadowDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
-import com.itintegration.orderapp.data.test.AbstractDataProvider;
+import com.itintegration.orderapp.ui.test.AbstractDataProvider;
 
 public class NewAssortmentFragment extends Fragment implements RecyclerViewExpandableItemManager.OnGroupCollapseListener,
         RecyclerViewExpandableItemManager.OnGroupExpandListener {
@@ -42,7 +43,7 @@ public class NewAssortmentFragment extends Fragment implements RecyclerViewExpan
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         //noinspection ConstantConditions
@@ -55,7 +56,7 @@ public class NewAssortmentFragment extends Fragment implements RecyclerViewExpan
         mRecyclerViewExpandableItemManager.setOnGroupCollapseListener(this);
 
         //adapter
-        final NewAssortmentAdapter myItemAdapter = new NewAssortmentAdapter(getDataProvider());
+        final NewAssortmentAdapter myItemAdapter = new NewAssortmentAdapter(this.getContext(), getDataProvider());
         mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(myItemAdapter); // wrap for expanding
         final GeneralItemAnimator animator = new RefactoredDefaultItemAnimator();
 
@@ -139,4 +140,6 @@ public class NewAssortmentFragment extends Fragment implements RecyclerViewExpan
     public AbstractDataProvider getDataProvider() {
         return ((NewAssortmentActivity) getActivity()).getDataProvider();
     }
+
+
 }

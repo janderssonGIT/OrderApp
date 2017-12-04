@@ -1,10 +1,7 @@
 package com.itintegration.orderapp.ui.test;
 
-
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.Animatable;
-import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
@@ -13,14 +10,12 @@ import android.view.View;
 
 import com.itintegration.orderapp.R;
 
-// NOTE: AnimatedVectorDrawableCompat works on API level 11+
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 class ExpandableItemIndicatorImplAnim extends ExpandableItemIndicator.Impl {
     private AppCompatImageView mImageView;
 
     @Override
-    public void onInit(Context context, AttributeSet attrs, int defStyleAttr, ExpandableItemIndicator thiz) {
-        View v = LayoutInflater.from(context).inflate(R.layout.widget_expandable_item_indicator, thiz, true);
+    public void onInit(Context context, AttributeSet attrs, int defStyleAttr, ExpandableItemIndicator ind) {
+        View v = LayoutInflater.from(context).inflate(R.layout.widget_expandable_item_indicator, ind, true);
         mImageView = v.findViewById(R.id.image_view);
     }
 

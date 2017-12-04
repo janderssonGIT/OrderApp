@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    style="@style/commonListItemStyle"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height"
+    android:background="@drawable/bg_swipe_item_neutral">
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_item_normal_state_left"
+        android:foreground="?attr/selectableItemBackground"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:id="@+id/innerHorizontalLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:id="@+id/innerVerticalLayout"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:background="@color/bg_item_normal_state_right"
+                android:baselineAligned="false"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:weightSum="10"
+                tools:ignore="NestedWeights" >
+
+                <TextView
+                    android:id="@+id/leftTopTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/bg_item_normal_state_left"
+                    android:layout_weight="8"
+                    android:layout_margin="2dp"
+                    android:padding="2dp"
+                    android:text="@string/lorem_long"/>
+
+                <TextView
+                    android:id="@+id/leftBottomTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:padding="2dp"
+                    android:text="@string/lorem_short"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:background="@color/bg_item_normal_state_right">
+
+                <TextView
+                    android:id="@android:id/text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="28dp"
+                    android:text="TextView"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:id="@+id/childButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="56dp"
+                    android:text="Button" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>

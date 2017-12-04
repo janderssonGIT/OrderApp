@@ -11,9 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.support.v7.widget.AppCompatImageButton;
+import android.widget.Toast;
 
 import com.itintegration.orderapp.R;
 import com.itintegration.orderapp.ui.assortment.AssortmentActivity;
+import com.itintegration.orderapp.ui.assortment.test.NewAssortmentActivity;
 import com.itintegration.orderapp.ui.settings.SettingsActivity;
 import com.itintegration.orderapp.ui.signin.SignInActivity;
 
@@ -41,7 +43,7 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, AssortmentActivity.class);
+                Intent intent = new Intent(mContext, NewAssortmentActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }

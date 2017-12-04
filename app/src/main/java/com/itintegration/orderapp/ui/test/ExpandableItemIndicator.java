@@ -10,7 +10,6 @@ import android.widget.FrameLayout;
 public class ExpandableItemIndicator extends FrameLayout {
     static abstract class Impl {
         public abstract void onInit(Context context, AttributeSet attrs, int defStyleAttr, ExpandableItemIndicator thiz);
-
         public abstract void setExpandedState(boolean isExpanded, boolean animate);
     }
 
@@ -31,19 +30,8 @@ public class ExpandableItemIndicator extends FrameLayout {
         onInit(context, attrs, defStyleAttr);
     }
 
-    protected boolean shouldUseAnimatedIndicator(Context context, AttributeSet attrs, int defStyleAttr) {
-        // NOTE: AnimatedVectorDrawableCompat works on API level 11+,
-        // but I prefer to use it on API level 16+ only due to performance reason of
-        // both hardware and Android platform.
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
-    }
-
     protected void onInit(Context context, AttributeSet attrs, int defStyleAttr) {
-        if (shouldUseAnimatedIndicator(context, attrs, defStyleAttr)) {
-            mImpl = new ExpandableItemIndicatorImplAnim();
-        } else {
-            mImpl = new ExpandableItemIndicatorImplNoAnim();
-        }
+        mImpl = new ExpandableItemIndicatorImplAnim();
         mImpl.onInit(context, attrs, defStyleAttr, this);
     }
 
