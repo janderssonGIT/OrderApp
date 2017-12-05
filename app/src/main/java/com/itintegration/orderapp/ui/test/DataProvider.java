@@ -12,49 +12,23 @@ import java.util.List;
 
 public class DataProvider extends AbstractDataProvider {
     private AppDataManager dataManager = new AppDataManager();
-
     private List<Pair<GroupData, ChildData>> mData;
-    private Pair<GroupData, ChildData> mLastRemovedGroup;
-    private int mLastRemovedGroupPosition = -1;
-
-    private ChildData mLastRemovedChild;
-    private long mLastRemovedChildParentGroupId = -1;
-    private int mLastRemovedChildPosition = -1;
 
     //TODO : #1 skapa egen linkedlist utav egen klass
     //TODO : #2 bygg linkedlist utav lokal db
     //TODO : #3 bygg linkedlist utav rest API
 
+
     public DataProvider() {
-
-        final String groupItems = "AB";
-        final String childItems = "1";
         mData = new LinkedList<>();
-
-        for (int i = 0; i < groupItems.length(); i++) {
-            final long groupId = i;
-            final String groupText = Character.toString(groupItems.charAt(i));
-            final ConcreteGroupData group = new ConcreteGroupData(groupId, groupText);
-            final List<ChildData> children = new ArrayList<>();
-
-            for (int j = 0; j < childItems.length(); j++) {
-                final long childId = group.generateNewChildId();
-                final String childText = Character.toString(childItems.charAt(j));
-
-                children.add(new ConcreteChildData(childId, childText));
-            }
-            mData.add(new Pair<GroupData, List<ChildData>>(group, children));
-        }
-    }
-
-    public void DataProviderTwo() {
         List<ArticleSwe> list = dataManager.generateArticleList();
+
         for(int i  = 0; i < list.size(); i++) {
             final String groupText = list.get(i).getDescription();
             final String groupText2 = Long.toString(list.get(i).getId());
             final ConcreteGroupData group = new ConcreteGroupData(i, groupText, groupText2);
             final ConcreteChildData child = new ConcreteChildData(i, list.get(i).getPrice(),
-                    list.get(i).getTotal());
+                    list.get(i).getTotal(), list.get(i).getUnit());
             mData.add(new Pair<GroupData, ChildData>(group, child));
         }
     }
@@ -62,11 +36,6 @@ public class DataProvider extends AbstractDataProvider {
     @Override
     public int getGroupCount() {
         return mData.size();
-    }
-
-    @Override
-    public int getChildCount(int groupPosition) {
-        return mData.get(groupPosition).second.size();
     }
 
     @Override
@@ -78,25 +47,20 @@ public class DataProvider extends AbstractDataProvider {
     }
 
     @Override
-    public ChildData getChildItem(int groupPosition, int childPosition) {
-        final List<ChildData> children = mData.get(groupPosition).second;
-
-        if (groupPosition < 0 || groupPosition >= getGroupCount()) {
-            throw new IndexOutOfBoundsException("groupPosition = " + groupPosition);
-        }
-        if (childPosition < 0 || childPosition >= children.size()) {
-            throw new IndexOutOfBoundsException("childPosition = " + childPosition);
-        }
-        return children.get(childPosition);
+    public ChildData getChildItem(int groupPosition) {
+        return mData.get(groupPosition).second;
     }
 
+    /**
+     * UNUSED
+     *
     @Override
     public void moveGroupItem(int fromGroupPosition, int toGroupPosition) {
         if (fromGroupPosition == toGroupPosition) {
             return;
         }
 
-        final Pair<GroupData, List<ChildData>> item = mData.remove(fromGroupPosition);
+        final Pair<GroupData, ChildData> item = mData.remove(fromGroupPosition);
         mData.add(toGroupPosition, item);
     }
 
@@ -146,6 +110,7 @@ public class DataProvider extends AbstractDataProvider {
         }
     }
 
+
     private long undoGroupRemoval() {
         int insertedPosition;
         if (mLastRemovedGroupPosition >= 0 && mLastRemovedGroupPosition < mData.size()) {
@@ -191,26 +156,18 @@ public class DataProvider extends AbstractDataProvider {
 
         return RecyclerViewExpandableItemManager.getPackedPositionForChild(groupPosition, insertedPosition);
     }
+     **/
 
     public static final class ConcreteGroupData extends GroupData {
         private final long mId;
-        private final String mTextHeader1;
-        private final String mTextHeader2;
+        private final String mTextHeaderA;
+        private final String mTextHeaderB;
         private boolean mPinned;
-        private long mNextChildId;
 
-        ConcreteGroupData(long id, String text) {
+        ConcreteGroupData(long id, String h1, String h2) {
             mId = id;
-            mTextHeader1 = text;
-            mTextHeader2 = null;
-            mNextChildId = 0;
-        }
-
-        ConcreteGroupData(long id, String text1, String text2) {
-            mId = id;
-            mTextHeader1 = text1;
-            mTextHeader2 = text2;
-            mNextChildId = 0;
+            mTextHeaderA = h1;
+            mTextHeaderB = h2;
         }
 
         @Override
@@ -224,13 +181,13 @@ public class DataProvider extends AbstractDataProvider {
         }
 
         @Override
-        public String getText() {
-            return mTextHeader1;
+        public String getHeaderTextA() {
+            return mTextHeaderA;
         }
 
         @Override
-        public String getText2() {
-            return mTextHeader2;
+        public String getHeaderTextB() {
+            return mTextHeaderB;
         }
 
         @Override
@@ -243,11 +200,6 @@ public class DataProvider extends AbstractDataProvider {
             return mPinned;
         }
 
-        public long generateNewChildId() {
-            final long id = mNextChildId;
-            mNextChildId += 1;
-            return id;
-        }
     }
 
     public static final class ConcreteChildData extends AbstractDataProvider.ChildData {
@@ -255,17 +207,24 @@ public class DataProvider extends AbstractDataProvider {
         private long mId;
         private final double mPrice;
         private final double mTotal;
+        private final String mUnit;
 
-        //Lägg till attr efter behov att spara user input.
+        //TODO : Lägg till attr efter behov att spara user input.
 
-        ConcreteChildData(long id, double price, double total) {
+        ConcreteChildData(long id, double price, double total, String unit) {
             mId = id;
             mPrice = price;
             mTotal = total;
+            mUnit = unit;
         }
 
         @Override
-        public double getmTotal() {
+        public String getUnit() {
+            return mUnit;
+        }
+
+        @Override
+        public double getTotal() {
             return mTotal;
         }
 
@@ -289,8 +248,5 @@ public class DataProvider extends AbstractDataProvider {
             return mPinned;
         }
 
-        public void setChildId(long id) {
-            this.mId = id;
-        }
     }
 }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,10 +55,12 @@ class NewAssortmentAdapter extends AbstractExpandableItemAdapter<NewAssortmentAd
     }
 
     public static class ChildViewHolder extends BaseViewHolder {
-        public Button mButton;
+        private Button mButton;
+        private NumberPicker mNumberPicker;
         public ChildViewHolder(View v) {
             super(v);
             mButton = v.findViewById(R.id.childButton);
+//            mNumberPicker = v.findViewById(R.id.numberPicker);
         }
     }
 
@@ -79,7 +82,7 @@ class NewAssortmentAdapter extends AbstractExpandableItemAdapter<NewAssortmentAd
 
     @Override
     public int getChildCount(int groupPosition) {
-        return mProvider.getChildCount(groupPosition);
+        return 1;
     }
 
     @Override
@@ -89,7 +92,7 @@ class NewAssortmentAdapter extends AbstractExpandableItemAdapter<NewAssortmentAd
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return mProvider.getChildItem(groupPosition, childPosition).getChildId();
+        return mProvider.getChildItem(groupPosition).getChildId();
     }
 
     @Override
@@ -118,9 +121,9 @@ class NewAssortmentAdapter extends AbstractExpandableItemAdapter<NewAssortmentAd
 
     @Override
     public void onBindGroupViewHolder(GroupViewHolder holder, int groupPosition, int viewType) {
-        final DataProvider.BaseData item = mProvider.getGroupItem(groupPosition);
+        final DataProvider.GroupData item = mProvider.getGroupItem(groupPosition);
 
-        holder.mTextView.setText(item.getText());
+        holder.mTextView.setText(item.getHeaderTextA());
         holder.itemView.setClickable(true);
 
         final int expandState = holder.getExpandStateFlags();
@@ -144,12 +147,17 @@ class NewAssortmentAdapter extends AbstractExpandableItemAdapter<NewAssortmentAd
 
     @Override
     public void onBindChildViewHolder(ChildViewHolder holder, int groupPosition, int childPosition, int viewType) {
-        final DataProvider.ChildData item = mProvider.getChildItem(groupPosition, childPosition);
+        final DataProvider.ChildData item = mProvider.getChildItem(groupPosition);
         int bgResId;
         bgResId = R.drawable.bg_item_normal_state;
 
+        //TODO : Setup widget data
+
         holder.mContainer.setBackgroundResource(bgResId);
-        holder.mTextView.setText(item.getText());
+        //holder.mTextView.setText(item.getText());
+//        holder.mNumberPicker.setMinValue(1);
+//        holder.mNumberPicker.setMaxValue(20);
+
         holder.mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

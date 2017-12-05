@@ -39,12 +39,12 @@ public class AssortmentAdapter extends RecyclerView.Adapter<AssortmentAdapter.Ar
         ArticleSwe articleSwe = articleSweList.get(position);
 
         //FIX
-        holder.articleNameHeader.setText(articleSwe.getProductName());
-        holder.articleNumberHeader.setText(String.valueOf(articleSwe.getArticleNumber()));
+        //holder.articleNameHeader.setText(articleSwe.getProductName());
+        //holder.articleNumberHeader.setText(String.valueOf(articleSwe.getArticleNumber()));
         holder.header1.setText("Beskrivning");
         holder.content1.setText(articleSwe.getDescription());
         holder.header2.setText("Kvantitet");
-        holder.content2.setText(String.valueOf(articleSwe.getStock()));
+        //holder.content2.setText(String.valueOf(articleSwe.getStock()));
 
         holder.secondInnerConstraintLayout.setVisibility(View.GONE);
 

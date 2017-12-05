@@ -74,73 +74,73 @@ public class AssortmentActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         articleSweList = new ArrayList<>();
-        loadArticles();
+        //loadArticles();
     }
 
     //TEST DATA - SKA TAS BORT.
-    private void loadArticles() {
-        ArticleSwe articleSwe1 = new ArticleSwe("Roquefort", 1000400021, "Roquefort är en blåmögelost, " +
-                "uppkallad efter staden Roquefort i Frankrike. Roquefort görs av fårmjölk och lagras i grottor med väggar belagda med mögelsvampen " +
-                "Penicillium roqueforti.", 20);
-
-        ArticleSwe articleSwe2 = new ArticleSwe("Parmesan", 1000400022, "Parmigiano-Reggiano är en klassisk italiensk hårdost " +
-                "gjord på komjölk, som fått sitt namn på grund av att osten först började tillverkas i trakten mellan städerna Parma och Reggio nell'Emilia i " +
-                "Emilia-Romagna i norra Italien. Den är kanske den mest berömda av många italienska hårdostar.", 120);
-
-        ArticleSwe articleSwe3 = new ArticleSwe("Gorgonzola", 1000400023, "Gorgonzola är en italiensk grönmögelost uppkallad efter en " +
-                "by utanför Milano med samma namn. Osten lagras vanligen i 2-4 månader, dock högst ett halvår.[1] Osten görs av komjölk. Tillverkning i byn Gorgonzola " +
-                "är känd sedan medeltiden.", 1);
-
-        ArticleSwe articleSwe4 = new ArticleSwe("Stilton", 1000400024, "Stilton är en engelsk blåmögelost gjord på komjölk och uppkallad " +
-                "efter orten Stilton och får endast tillverkas i grevskapen Derbyshire, Leicestershire och Nottinghamshire för att kunna kallas stilton." +
-                 " Osten är cylinderformad med en tjock skorpa och säljs inte förrän den lagrats i minst tre månader", 30);
-
-        ArticleSwe articleSwe5 = new ArticleSwe("Roquefort", 1000400021, "Roquefort är en blåmögelost, " +
-                "uppkallad efter staden Roquefort i Frankrike. Roquefort görs av fårmjölk och lagras i grottor med väggar belagda med mögelsvampen " +
-                "Penicillium roqueforti.", 20);
-
-        ArticleSwe articleSwe6 = new ArticleSwe("Parmesan", 1000400022, "Parmigiano-Reggiano är en klassisk italiensk hårdost " +
-                "gjord på komjölk, som fått sitt namn på grund av att osten först började tillverkas i trakten mellan städerna Parma och Reggio nell'Emilia i " +
-                "Emilia-Romagna i norra Italien. Den är kanske den mest berömda av många italienska hårdostar.", 120);
-
-        ArticleSwe articleSwe7 = new ArticleSwe("Gorgonzola", 1000400023, "Gorgonzola är en italiensk grönmögelost uppkallad efter en " +
-                "by utanför Milano med samma namn. Osten lagras vanligen i 2-4 månader, dock högst ett halvår.[1] Osten görs av komjölk. Tillverkning i byn Gorgonzola " +
-                "är känd sedan medeltiden.", 1);
-
-        ArticleSwe articleSwe8 = new ArticleSwe("Stilton", 1000400024, "Stilton är en engelsk blåmögelost gjord på komjölk och uppkallad " +
-                "efter orten Stilton och får endast tillverkas i grevskapen Derbyshire, Leicestershire och Nottinghamshire för att kunna kallas stilton." +
-                " Osten är cylinderformad med en tjock skorpa och säljs inte förrän den lagrats i minst tre månader", 30);
-
-        ArticleSwe articleSwe9 = new ArticleSwe("Roquefort", 1000400021, "Roquefort är en blåmögelost, " +
-                "uppkallad efter staden Roquefort i Frankrike. Roquefort görs av fårmjölk och lagras i grottor med väggar belagda med mögelsvampen " +
-                "Penicillium roqueforti.", 20);
-
-        ArticleSwe articleSwe10 = new ArticleSwe("Parmesan", 1000400022, "Parmigiano-Reggiano är en klassisk italiensk hårdost " +
-                "gjord på komjölk, som fått sitt namn på grund av att osten först började tillverkas i trakten mellan städerna Parma och Reggio nell'Emilia i " +
-                "Emilia-Romagna i norra Italien. Den är kanske den mest berömda av många italienska hårdostar.", 120);
-
-        ArticleSwe articleSwe11 = new ArticleSwe("Gorgonzola", 1000400023, "Gorgonzola är en italiensk grönmögelost uppkallad efter en " +
-                "by utanför Milano med samma namn. Osten lagras vanligen i 2-4 månader, dock högst ett halvår.[1] Osten görs av komjölk. Tillverkning i byn Gorgonzola " +
-                "är känd sedan medeltiden.", 1);
-
-        ArticleSwe articleSwe12 = new ArticleSwe("Stilton", 1000400024, "Stilton är en engelsk blåmögelost gjord på komjölk och uppkallad " +
-                "efter orten Stilton och får endast tillverkas i grevskapen Derbyshire, Leicestershire och Nottinghamshire för att kunna kallas stilton." +
-                " Osten är cylinderformad med en tjock skorpa och säljs inte förrän den lagrats i minst tre månader", 30);
-
-        articleSweList.add(articleSwe1);
-        articleSweList.add(articleSwe2);
-        articleSweList.add(articleSwe3);
-        articleSweList.add(articleSwe4);
-        articleSweList.add(articleSwe5);
-        articleSweList.add(articleSwe6);
-        articleSweList.add(articleSwe7);
-        articleSweList.add(articleSwe8);
-        articleSweList.add(articleSwe9);
-        articleSweList.add(articleSwe10);
-        articleSweList.add(articleSwe11);
-        articleSweList.add(articleSwe12);
-
-        assortmentAdapter = new AssortmentAdapter(articleSweList, getApplicationContext());
-        recyclerView.setAdapter(assortmentAdapter);
-    }
+//    private void loadArticles() {
+//        ArticleSwe articleSwe1 = new ArticleSwe("Roquefort", 1000400021, "Roquefort är en blåmögelost, " +
+//                "uppkallad efter staden Roquefort i Frankrike. Roquefort görs av fårmjölk och lagras i grottor med väggar belagda med mögelsvampen " +
+//                "Penicillium roqueforti.", 20);
+//
+//        ArticleSwe articleSwe2 = new ArticleSwe("Parmesan", 1000400022, "Parmigiano-Reggiano är en klassisk italiensk hårdost " +
+//                "gjord på komjölk, som fått sitt namn på grund av att osten först började tillverkas i trakten mellan städerna Parma och Reggio nell'Emilia i " +
+//                "Emilia-Romagna i norra Italien. Den är kanske den mest berömda av många italienska hårdostar.", 120);
+//
+//        ArticleSwe articleSwe3 = new ArticleSwe("Gorgonzola", 1000400023, "Gorgonzola är en italiensk grönmögelost uppkallad efter en " +
+//                "by utanför Milano med samma namn. Osten lagras vanligen i 2-4 månader, dock högst ett halvår.[1] Osten görs av komjölk. Tillverkning i byn Gorgonzola " +
+//                "är känd sedan medeltiden.", 1);
+//
+//        ArticleSwe articleSwe4 = new ArticleSwe("Stilton", 1000400024, "Stilton är en engelsk blåmögelost gjord på komjölk och uppkallad " +
+//                "efter orten Stilton och får endast tillverkas i grevskapen Derbyshire, Leicestershire och Nottinghamshire för att kunna kallas stilton." +
+//                 " Osten är cylinderformad med en tjock skorpa och säljs inte förrän den lagrats i minst tre månader", 30);
+//
+//        ArticleSwe articleSwe5 = new ArticleSwe("Roquefort", 1000400021, "Roquefort är en blåmögelost, " +
+//                "uppkallad efter staden Roquefort i Frankrike. Roquefort görs av fårmjölk och lagras i grottor med väggar belagda med mögelsvampen " +
+//                "Penicillium roqueforti.", 20);
+//
+//        ArticleSwe articleSwe6 = new ArticleSwe("Parmesan", 1000400022, "Parmigiano-Reggiano är en klassisk italiensk hårdost " +
+//                "gjord på komjölk, som fått sitt namn på grund av att osten först började tillverkas i trakten mellan städerna Parma och Reggio nell'Emilia i " +
+//                "Emilia-Romagna i norra Italien. Den är kanske den mest berömda av många italienska hårdostar.", 120);
+//
+//        ArticleSwe articleSwe7 = new ArticleSwe("Gorgonzola", 1000400023, "Gorgonzola är en italiensk grönmögelost uppkallad efter en " +
+//                "by utanför Milano med samma namn. Osten lagras vanligen i 2-4 månader, dock högst ett halvår.[1] Osten görs av komjölk. Tillverkning i byn Gorgonzola " +
+//                "är känd sedan medeltiden.", 1);
+//
+//        ArticleSwe articleSwe8 = new ArticleSwe("Stilton", 1000400024, "Stilton är en engelsk blåmögelost gjord på komjölk och uppkallad " +
+//                "efter orten Stilton och får endast tillverkas i grevskapen Derbyshire, Leicestershire och Nottinghamshire för att kunna kallas stilton." +
+//                " Osten är cylinderformad med en tjock skorpa och säljs inte förrän den lagrats i minst tre månader", 30);
+//
+//        ArticleSwe articleSwe9 = new ArticleSwe("Roquefort", 1000400021, "Roquefort är en blåmögelost, " +
+//                "uppkallad efter staden Roquefort i Frankrike. Roquefort görs av fårmjölk och lagras i grottor med väggar belagda med mögelsvampen " +
+//                "Penicillium roqueforti.", 20);
+//
+//        ArticleSwe articleSwe10 = new ArticleSwe("Parmesan", 1000400022, "Parmigiano-Reggiano är en klassisk italiensk hårdost " +
+//                "gjord på komjölk, som fått sitt namn på grund av att osten först började tillverkas i trakten mellan städerna Parma och Reggio nell'Emilia i " +
+//                "Emilia-Romagna i norra Italien. Den är kanske den mest berömda av många italienska hårdostar.", 120);
+//
+//        ArticleSwe articleSwe11 = new ArticleSwe("Gorgonzola", 1000400023, "Gorgonzola är en italiensk grönmögelost uppkallad efter en " +
+//                "by utanför Milano med samma namn. Osten lagras vanligen i 2-4 månader, dock högst ett halvår.[1] Osten görs av komjölk. Tillverkning i byn Gorgonzola " +
+//                "är känd sedan medeltiden.", 1);
+//
+//        ArticleSwe articleSwe12 = new ArticleSwe("Stilton", 1000400024, "Stilton är en engelsk blåmögelost gjord på komjölk och uppkallad " +
+//                "efter orten Stilton och får endast tillverkas i grevskapen Derbyshire, Leicestershire och Nottinghamshire för att kunna kallas stilton." +
+//                " Osten är cylinderformad med en tjock skorpa och säljs inte förrän den lagrats i minst tre månader", 30);
+//
+//        articleSweList.add(articleSwe1);
+//        articleSweList.add(articleSwe2);
+//        articleSweList.add(articleSwe3);
+//        articleSweList.add(articleSwe4);
+//        articleSweList.add(articleSwe5);
+//        articleSweList.add(articleSwe6);
+//        articleSweList.add(articleSwe7);
+//        articleSweList.add(articleSwe8);
+//        articleSweList.add(articleSwe9);
+//        articleSweList.add(articleSwe10);
+//        articleSweList.add(articleSwe11);
+//        articleSweList.add(articleSwe12);
+//
+//        assortmentAdapter = new AssortmentAdapter(articleSweList, getApplicationContext());
+//        recyclerView.setAdapter(assortmentAdapter);
+//    }
 }

@@ -10,7 +10,7 @@ public class DataProviderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setRetainInstance(true);  // keep the mDataProvider instance
+        setRetainInstance(true);
         mDataProvider = new DataProvider();
     }
 
