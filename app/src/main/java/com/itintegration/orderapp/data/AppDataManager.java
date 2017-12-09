@@ -13,14 +13,13 @@ public class AppDataManager implements DataManager {
     public AppDataManager() {
     }
 
-    //TESTLIST
     @Override
     public List<ArticleSwe> generateArticleList() {
         List<ArticleSwe> articleSweList = new ArrayList<>();
 
         for(int i = 0; i < 20; i++) {
             int id = 300 + (i*2);
-            String description = "Neat description" + i;
+            String description = "Description" + i;
             double total = 10.0000 + i%2.0000;
             double disponible = 10.0000 + i%2.0000;
             String unit = "" + (10 + i) + "";
@@ -45,5 +44,13 @@ public class AppDataManager implements DataManager {
             articleSweList.add(article);
         }
         return articleSweList;
+    }
+
+    public List<String> generateUnitList() {
+        List<String> list = new ArrayList<>();
+        list.add("kg");
+        list.add("10");
+        list.add("st");
+        return list;
     }
 }

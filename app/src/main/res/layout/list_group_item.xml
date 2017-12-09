@@ -12,30 +12,31 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_group_item_normal_state"
+        android:background="@color/group_normal_state"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         tools:ignore="UselessParent">
 
         <TextView
-            android:id="@android:id/text1"
+            android:id="@+id/textHeaderA"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="30dp"
             android:layout_gravity="top|start"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:gravity="center" />
+            android:gravity="start"
+            android:paddingTop="5dp" />
 
         <TextView
-            android:id="@android:id/text2"
+            android:id="@+id/textHeaderB"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="30dp"
             android:layout_gravity="bottom|start"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:gravity="center" />
+            android:gravity="start" />
 
-        <com.itintegration.orderapp.ui.test.ExpandableItemIndicator
+        <com.itintegration.orderapp.util.ExpandableItemIndicator
             android:id="@+id/indicator"
             android:layout_width="24dp"
             android:layout_height="24dp"

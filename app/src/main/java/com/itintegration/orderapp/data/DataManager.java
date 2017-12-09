@@ -7,4 +7,5 @@ import java.util.List;
 
 interface DataManager {
     List<ArticleSwe> generateArticleList();
+    List<String> generateUnitList();
 }

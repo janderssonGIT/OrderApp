@@ -16,6 +16,6 @@
 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <color android:color="@color/bg_item_normal_state_left"/>
+        <color android:color="@color/item_background_bright_blue"/>
     </item>
 </selector>

@@ -41,7 +41,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.assortment.test.NewAssortmentActivity">
+        <activity android:name=".ui.assortment.AssortmentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
