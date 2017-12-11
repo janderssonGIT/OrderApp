@@ -11,8 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.itintegration.orderapp.R;
-import com.itintegration.orderapp.data.provider.AbstractDataProvider;
-import com.itintegration.orderapp.data.provider.DataProviderFragment;
+import com.itintegration.orderapp.ui.assortmentprovider.AbstractDataProvider;
+import com.itintegration.orderapp.ui.assortmentprovider.DataProviderFragment;
 
 public class AssortmentActivity extends AppCompatActivity {
     private static final String FRAGMENT_TAG_DATA_PROVIDER = "data provider";

@@ -11,12 +11,13 @@
     <string name="assortment_search_hint">Sök artikel</string>
     <string name="settings">Inställningar</string>
     <string name="unit">Enhet:</string>s
-    <string name="price">Price:</string>
+    <string name="price">Price: </string>
     <string name="amount">Amount</string>
-    <string name="preLager">PreLager</string>
+    <string name="preLager">PreLager: </string>
     <string name="addToOrder">Lägg i order</string>
     <string name="removeFromOrder">Ta bort från order</string>
     <string name="comment">Kommentar&#8230;</string>
+    <string name="save">Spara</string>
 
 
 

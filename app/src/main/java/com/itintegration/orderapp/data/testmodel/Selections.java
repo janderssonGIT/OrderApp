@@ -1,4 +1,4 @@
-package com.itintegration.orderapp.data.model;
+package com.itintegration.orderapp.data.testmodel;
 
 import java.util.HashMap;
 import java.util.Map;

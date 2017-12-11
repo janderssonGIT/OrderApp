@@ -20,10 +20,11 @@ import com.h6ah4i.android.widget.advrecyclerview.decoration.ItemShadowDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
-import com.itintegration.orderapp.data.provider.AbstractDataProvider;
+import com.itintegration.orderapp.ui.assortmentprovider.AbstractDataProvider; //"getProvider()"
+import com.itintegration.orderapp.ui.assortment.AssortmentAdapter.AssortmentAdapterCallback;
 
 public class AssortmentFragment extends Fragment implements RecyclerViewExpandableItemManager.OnGroupCollapseListener,
-        RecyclerViewExpandableItemManager.OnGroupExpandListener {
+        RecyclerViewExpandableItemManager.OnGroupExpandListener, AssortmentAdapterCallback {
 
     private static final String SAVED_STATE_EXPANDABLE_ITEM_MANAGER = "RecyclerViewExpandableItemManager";
 
@@ -31,9 +32,17 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewExpandableItemManager mRecyclerViewExpandableItemManager;
+    private AbstractDataProvider mProvider;
+    private AssortmentAdapter assortmentAdapter;
 
     public AssortmentFragment() {
         super();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mProvider = getDataProvider();
     }
 
     @Override
@@ -55,8 +64,8 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
         mRecyclerViewExpandableItemManager.setOnGroupCollapseListener(this);
 
         //adapter
-        final AssortmentAdapter myItemAdapter = new AssortmentAdapter(this.getContext(), getDataProvider());
-        mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(myItemAdapter); // wrap for expanding
+        assortmentAdapter = new AssortmentAdapter(this.getContext(), mProvider, AssortmentFragment.this);
+        mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(assortmentAdapter); // wrap for expanding
         final GeneralItemAnimator animator = new RefactoredDefaultItemAnimator();
 
         // Change animations are enabled by default since support-v7-recyclerview v22.
@@ -138,6 +147,18 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
 
     public AbstractDataProvider getDataProvider() {
         return ((AssortmentActivity) getActivity()).getDataProvider();
+    }
+
+
+
+
+
+
+
+    @Override
+    public void saveComment(String comments, int groupPosition) {
+        assortmentAdapter.updateProvider(comments, groupPosition);
+        assortmentAdapter.notifyDataSetChanged();
     }
 
 

@@ -1,7 +1,7 @@
 package com.itintegration.orderapp.data;
 
 
-import com.itintegration.orderapp.data.model.ArticleSwe;
+import com.itintegration.orderapp.data.testmodel.ArticleSwe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class AppDataManager implements DataManager {
             byte outgoing = 0;
             byte inactive = (byte) ThreadLocalRandom.current().nextInt(0, 1);
             Random r = new Random();
-            double price = 575.00 + (14200.00 - 575.00) * r.nextDouble();
+            double price = 55.00 + (1400.00 - 55.00) * r.nextDouble();
             int codingCode = 0;
             int storageLocation = 0;
             byte articleMigration = 0;

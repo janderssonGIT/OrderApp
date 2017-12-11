@@ -1,6 +1,4 @@
-package com.itintegration.orderapp.data.provider;
-
-import java.util.List;
+package com.itintegration.orderapp.ui.assortmentprovider;
 
 public abstract class AbstractDataProvider {
     public static abstract class BaseData {
@@ -19,6 +17,10 @@ public abstract class AbstractDataProvider {
         public abstract double getTotal();
         public abstract long getChildId();
         public abstract double getPrice();
+        public abstract String getComment();
+        public abstract void setComment(String comment);
+        public abstract int getAmount();
+        public abstract void setAmount(int amount);
     }
 
     public abstract int getGroupCount();

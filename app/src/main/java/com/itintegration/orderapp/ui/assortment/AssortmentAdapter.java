@@ -3,11 +3,11 @@ package com.itintegration.orderapp.ui.assortment;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -21,35 +21,43 @@ import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemVie
 
 import com.itintegration.orderapp.R;
 import com.itintegration.orderapp.data.AppDataManager;
-import com.itintegration.orderapp.data.model.Selections;
-import com.itintegration.orderapp.data.provider.AbstractDataProvider;
-import com.itintegration.orderapp.data.provider.DataProvider;
+import com.itintegration.orderapp.ui.assortmentprovider.AbstractDataProvider;
+import com.itintegration.orderapp.ui.assortmentprovider.DataProvider;
 import com.itintegration.orderapp.util.ExpandableItemIndicator;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
 class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.GroupViewHolder,
         AssortmentAdapter.ChildViewHolder> {
 
     private AbstractDataProvider mProvider;
-    private Map<Integer, Selections> userSelections;
     private List<String> unitList;
     private Context mContext;
+    private AssortmentAdapterCallback callback;
 
-    public AssortmentAdapter(Context mContext, AbstractDataProvider dataProvider) {
+    void updateProvider(String comments, int groupPosition) {
+        mProvider.getChildItem(groupPosition).setComment(comments);
+    }
+
+    public interface AssortmentAdapterCallback {
+        void saveComment(String comment, int groupPositionS);
+    }
+
+    AssortmentAdapter(Context context, AbstractDataProvider dataProvider, AssortmentAdapterCallback cb) {
         mProvider = dataProvider;
-        this.mContext = mContext;
+        mContext = context;
         unitList = new AppDataManager().generateUnitList();
+        callback = cb;
 
-        initializeSelectionsMap();
         setHasStableIds(true);
     }
 
     private interface Expandable extends ExpandableItemConstants {
+
     }
 
-    public static abstract class BaseViewHolder extends AbstractExpandableItemViewHolder {
+    static abstract class BaseViewHolder extends AbstractExpandableItemViewHolder {
         FrameLayout mContainer;
         LinearLayout mInnerLeft;
         LinearLayout mInnerRight;
@@ -62,7 +70,7 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
         }
     }
 
-    public static class GroupViewHolder extends BaseViewHolder {
+    static class GroupViewHolder extends BaseViewHolder {
         ExpandableItemIndicator mIndicator;
         TextView mTextViewHeaderA;
         TextView mTextViewHeaderB;
@@ -75,13 +83,14 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
         }
     }
 
-    public static class ChildViewHolder extends BaseViewHolder {
+    static class ChildViewHolder extends BaseViewHolder {
         private TextView mTextViewPrice;
         private TextView mTextViewPrelimLager;
         private EditText mEditAmount;
         private EditText mEditComment;
         private Spinner mUnitSpinner;
         private ToggleButton mAddToOrderButton;
+        private Button mSaveButton;
 
         ChildViewHolder(View v) {
             super(v);
@@ -91,6 +100,7 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
             mEditComment = v.findViewById(R.id.editComment);
             mUnitSpinner = v.findViewById(R.id.unitSpinner);
             mAddToOrderButton = v.findViewById(R.id.addToOrderButton);
+            mSaveButton = v.findViewById(R.id.saveButton);
         }
     }
 
@@ -182,66 +192,36 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
 
     @Override
     public void onBindChildViewHolder(final ChildViewHolder holder, final int groupPosition, int childPosition, int viewType) {
+        String stringDouble;
         final DataProvider.ChildData item = mProvider.getChildItem(groupPosition);
 
-        holder.mTextViewPrice.setText("Price: " + (int) item.getPrice());           //fix framelayout
-        holder.mTextViewPrelimLager.setText("PreLager: " + (int) item.getTotal());
+            stringDouble = Double.toString(item.getTotal());
+        holder.mTextViewPrelimLager.setText(stringDouble);
+            stringDouble = Integer.toString(item.getAmount());
+        holder.mEditAmount.setText(stringDouble);
 
-        holder.mEditComment.setText(userSelections.get(groupPosition).getComment());
-        holder.mEditAmount.setText(Integer.toString(userSelections.get(groupPosition).getAmount()));
+        holder.mEditComment.setText(item.getComment().toString());
+        holder.mTextViewPrice.setText((String.format(Locale.getDefault(),"%.2f",item.getPrice())));
 
+        setupSpinner(holder); //TODO : Not dynamic
+        setupSaveButton(holder, groupPosition);
         setupOrderButton(holder, groupPosition);
-        setupEditAmount(holder, groupPosition);
-        setupEditComment(holder, groupPosition);
-        setupSpinner(holder, groupPosition);
     }
 
-    private void setupSpinner(final ChildViewHolder holder, final int groupPosition) {
+    private void setupSaveButton(final ChildViewHolder holder, final int groupPosition) {
+        holder.mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String cmt = holder.mEditComment.getText().toString();
+                callback.saveComment(cmt, groupPosition);
+            }
+        });
+    }
+
+    private void setupSpinner(final ChildViewHolder holder) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, unitList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         holder.mUnitSpinner.setAdapter(adapter);
-    }
-
-    private void setupEditComment(final ChildViewHolder holder, final int groupPosition) {
-        holder.mEditComment.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                Selections selection = userSelections.get(groupPosition);
-                selection.setComment(editable.toString());
-                userSelections.put(groupPosition, selection);
-            }
-        });
-    }
-
-    private void setupEditAmount(final ChildViewHolder holder, final int groupPosition) {
-        holder.mEditAmount.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                Selections selection = userSelections.get(groupPosition);
-                selection.setAmount(Integer.parseInt(editable.toString()));
-                userSelections.put(groupPosition, selection);
-            }
-        });
     }
 
     private void setupOrderButton(final ChildViewHolder holder, final int groupPosition) {
@@ -264,6 +244,37 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
         });
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      *
      *
@@ -272,8 +283,24 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
      *
      */
 
-    private void initializeSelectionsMap() {
-        Selections selections = new Selections();
-        userSelections = selections.createEmptyHashMap(mProvider.getGroupCount());
-    }
+//    private void initializeSelectionsMap() {
+//        Selections selections = new Selections();
+//        userSelections = selections.createEmptyHashMap(mProvider.getGroupCount());
+//    }
+
+
+//    protected void postAndNotifyAdapter(final Handler handler, final RecyclerView recyclerView, final RecyclerView.Adapter adapter) {
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (!recyclerView.isComputingLayout()) {
+//                    adapter.notifyDataSetChanged();
+//                } else {
+//                    postAndNotifyAdapter(handler, recyclerView, adapter);
+//                }
+//            }
+//        });
+//    }
+
+
 }

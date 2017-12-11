@@ -1,11 +1,12 @@
-package com.itintegration.orderapp.data.provider;
+package com.itintegration.orderapp.ui.assortmentprovider;
 
 import android.support.v4.util.Pair;
 
 import com.itintegration.orderapp.data.AppDataManager;
-import com.itintegration.orderapp.data.model.ArticleSwe;
+import com.itintegration.orderapp.data.testmodel.ArticleSwe;
+import com.itintegration.orderapp.data.model.ConcreteChildData;
+import com.itintegration.orderapp.data.model.ConcreteGroupData;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class DataProvider extends AbstractDataProvider {
                     groupText2);
             final ConcreteChildData child = new ConcreteChildData(i,
                     artList.get(i).getPrice(),
-                    artList.get(i).getTotal());
+                    artList.get(i).getTotal(), "", 0);
             mData.add(new Pair<GroupData, ChildData>(group, child));
         }
     }
@@ -154,86 +155,4 @@ public class DataProvider extends AbstractDataProvider {
         return RecyclerViewExpandableItemManager.getPackedPositionForChild(groupPosition, insertedPosition);
     }
      **/
-
-    public static final class ConcreteGroupData extends GroupData {
-        private final long mId;
-        private final String mProductName;
-        private final String mBarcode;
-        private boolean mPinned;
-
-        ConcreteGroupData(long id, String h1, String h2) {
-            mId = id;
-            mProductName = h1;
-            mBarcode = h2;
-        }
-
-        @Override
-        public long getGroupId() {
-            return mId;
-        }
-
-        @Override
-        public boolean isSectionHeader() {
-            return false;
-        }
-
-        @Override
-        public String getProductName() {
-            return mProductName;
-        }
-
-        @Override
-        public String getProductBarcode() {
-            return mBarcode;
-        }
-
-        @Override
-        public void setPinned(boolean pinnedToSwipeLeft) {
-            mPinned = pinnedToSwipeLeft;
-        }
-
-        @Override
-        public boolean isPinned() {
-            return mPinned;
-        }
-    }
-
-    public static final class ConcreteChildData extends AbstractDataProvider.ChildData {
-        private boolean mPinned;
-        private long mId;
-        private final double mPrice;
-        private final double mTotal;
-
-        ConcreteChildData(long id, double price, double total) {
-            mId = id;
-            mPrice = price;
-            mTotal = total;
-        }
-
-        @Override
-        public double getTotal() {
-            return mTotal;
-        }
-
-        @Override
-        public long getChildId() {
-            return mId;
-        }
-
-        @Override
-        public double getPrice() {
-            return mPrice;
-        }
-
-        @Override
-        public void setPinned(boolean pinned) {
-            mPinned = pinned;
-        }
-
-        @Override
-        public boolean isPinned() {
-            return mPinned;
-        }
-
-    }
 }

@@ -14,7 +14,7 @@
 
         <item
             android:id="@+id/cartButton"
-            android:icon="@android:drawable/ic_popup_sync"
+            android:icon="@drawable/ic_shop_icon"
             android:title="Cart"
             app:showAsAction="ifRoom" />
         <!--app:actionViewClass="android.support.v7.widget.AppCompatButton-->
