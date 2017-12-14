@@ -1,19 +1,23 @@
-package com.itintegration.orderapp.data.testmodel;
+package com.itintegration.orderapp.data.test;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Selections {
+
+
+    private long id;
     private String unit;
     private String comment;
     private int amount;
     private boolean addedToOrder;
 
-    public Selections(String unit, String comment, int amount, boolean addedToOrder) {
+    public Selections(long id, String unit, String comment, int amount, boolean addedToOrder) {
         this.unit = unit;
         this.comment = comment;
         this.amount = amount;
         this.addedToOrder = addedToOrder;
+        this.id = id;
     }
 
     public Selections() {
@@ -23,10 +27,18 @@ public class Selections {
     public Map<Integer, Selections> createEmptyHashMap(int size) {
         Map<Integer, Selections> map = new HashMap<>();
         for(int i = 0; i < size; i++) {
-            Selections selection = new Selections("", "", 0, false);
+            Selections selection = new Selections(0,"", "", 0, false);
             map.put(i, selection);
         }
         return map;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUnit() {

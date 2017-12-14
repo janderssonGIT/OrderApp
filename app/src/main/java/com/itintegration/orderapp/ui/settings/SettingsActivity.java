@@ -1,7 +1,6 @@
 package com.itintegration.orderapp.ui.settings;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,9 +13,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.itintegration.orderapp.service.DebugMsSQLConnection;
+import com.itintegration.orderapp.data.test.MsSQLConnection_Old;
 import com.itintegration.orderapp.R;
-import com.itintegration.orderapp.ui.home.HomeActivity;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -25,7 +23,7 @@ import java.sql.Statement;
 public class SettingsActivity extends AppCompatActivity {
 
     private Context mContext;
-    private DebugMsSQLConnection connectionClass;
+    private MsSQLConnection_Old connectionClass;
     private EditText edtuserid, edtpass;
     private Button btnlogin;
     private ProgressBar pbbar;
@@ -41,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupConnectionUI() {
-        connectionClass = new DebugMsSQLConnection();
+        connectionClass = new MsSQLConnection_Old();
         edtuserid = findViewById(R.id.edtuserid);
         edtpass = findViewById(R.id.edtpass);
         btnlogin = findViewById(R.id.btnlogin);

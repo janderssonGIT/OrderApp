@@ -1,19 +1,18 @@
-package com.itintegration.orderapp.data;
+package com.itintegration.orderapp.data.test;
 
 
-import com.itintegration.orderapp.data.testmodel.ArticleSwe;
+import com.itintegration.orderapp.data.test.ArticleSwe;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class AppDataManager implements DataManager {
+public class GenerateArticleData {
 
-    public AppDataManager() {
+    public GenerateArticleData() {
     }
 
-    @Override
     public List<ArticleSwe> generateArticleList() {
         List<ArticleSwe> articleSweList = new ArrayList<>();
 

@@ -9,10 +9,11 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import com.itintegration.orderapp.R;
-import com.itintegration.orderapp.ui.assortmentprovider.AbstractDataProvider;
-import com.itintegration.orderapp.ui.assortmentprovider.DataProviderFragment;
+import com.itintegration.orderapp.ui.assortmentitemprovider.AbstractItemProvider;
+import com.itintegration.orderapp.ui.assortmentitemprovider.ItemProviderFragment;
 
 public class AssortmentActivity extends AppCompatActivity {
     private static final String FRAGMENT_TAG_DATA_PROVIDER = "data provider";
@@ -27,7 +28,7 @@ public class AssortmentActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(new DataProviderFragment(), FRAGMENT_TAG_DATA_PROVIDER)
+                    .add(new ItemProviderFragment(), FRAGMENT_TAG_DATA_PROVIDER)
                     .commit();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new AssortmentFragment(), FRAGMENT_LIST_VIEW)
@@ -35,9 +36,9 @@ public class AssortmentActivity extends AppCompatActivity {
         }
     }
 
-    public AbstractDataProvider getDataProvider() {
+    public AbstractItemProvider getDataProvider() {
         final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_DATA_PROVIDER);
-        return ((DataProviderFragment) fragment).getDataProvider();
+        return ((ItemProviderFragment) fragment).getDataProvider();
     }
 
     private void setupToolbar() {
@@ -61,6 +62,7 @@ public class AssortmentActivity extends AppCompatActivity {
      * Vid knapptryck på "retur" knappen, kolla om sökfält innehåller sökfras.
      * Vid 'TRUE'; rensa sökfält, om FALSE; utför RETUR till föregående vy.
      */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -74,6 +76,10 @@ public class AssortmentActivity extends AppCompatActivity {
                     overridePendingTransition(R.anim.left_in, R.anim.right_out);
                     return true;
                 }
+            case R.id.orderButton:
+                Button btn = (Button) mOptionsMenu.findItem(R.id.orderButton);
+
+                //TODO : Do activity transit? or switch out fragment? Hmmm. Could recreate same list with a new dataset? much better. And switch title of toolbar.
         }
         return super.onOptionsItemSelected(item);
     }

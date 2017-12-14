@@ -1,4 +1,4 @@
-package com.itintegration.orderapp.ui.assortmentprovider;
+package com.itintegration.orderapp.unused.assortmentprovider;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

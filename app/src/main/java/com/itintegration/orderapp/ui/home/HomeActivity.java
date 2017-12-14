@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     }
 
     private void setupButtons() {
-        Button orderButton = findViewById(R.id.order_btn);
+        Button orderButton = findViewById(R.id.assortment_btn);
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

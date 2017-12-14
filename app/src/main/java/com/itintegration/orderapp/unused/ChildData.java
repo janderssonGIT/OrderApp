@@ -1,21 +1,22 @@
-package com.itintegration.orderapp.data.model;
+package com.itintegration.orderapp.unused;
 
-import com.itintegration.orderapp.ui.assortmentprovider.AbstractDataProvider;
+import com.itintegration.orderapp.unused.assortmentprovider.AbstractDataProvider;
 
-public final class ConcreteChildData extends AbstractDataProvider.ChildData {
-    private boolean mPinned;
+public final class ChildData extends AbstractDataProvider.ChildData {
     private long mId;
     private final double mPrice;
     private final double mTotal;
     private String mComment;
     private int mAmount;
+    private String mUnit;
 
-    public ConcreteChildData(long id, double price, double total, String comment, int amount) {
+    public ChildData(long id, double price, double total, String comment, int amount) {
         mId = id;
         mPrice = price;
         mTotal = total;
         mComment = comment;
         mAmount = amount;
+        mUnit = "";
     }
 
     @Override
@@ -54,13 +55,13 @@ public final class ConcreteChildData extends AbstractDataProvider.ChildData {
     }
 
     @Override
-    public void setPinned(boolean pinned) {
-        mPinned = pinned;
+    public String getUnit() {
+        return mUnit;
     }
 
     @Override
-    public boolean isPinned() {
-        return mPinned;
+    public void setUnit(String unit) {
+        mUnit = unit;
     }
 
 }

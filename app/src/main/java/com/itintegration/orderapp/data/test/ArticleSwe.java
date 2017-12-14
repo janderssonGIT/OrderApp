@@ -1,4 +1,4 @@
-package com.itintegration.orderapp.data.testmodel;
+package com.itintegration.orderapp.data.test;
 
 
 public class ArticleSwe {

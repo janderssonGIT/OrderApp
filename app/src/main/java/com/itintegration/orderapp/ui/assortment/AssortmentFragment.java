@@ -20,7 +20,7 @@ import com.h6ah4i.android.widget.advrecyclerview.decoration.ItemShadowDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
-import com.itintegration.orderapp.ui.assortmentprovider.AbstractDataProvider; //"getProvider()"
+import com.itintegration.orderapp.ui.assortmentitemprovider.AbstractItemProvider;
 import com.itintegration.orderapp.ui.assortment.AssortmentAdapter.AssortmentAdapterCallback;
 
 public class AssortmentFragment extends Fragment implements RecyclerViewExpandableItemManager.OnGroupCollapseListener,
@@ -32,7 +32,7 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewExpandableItemManager mRecyclerViewExpandableItemManager;
-    private AbstractDataProvider mProvider;
+    private AbstractItemProvider mProvider;
     private AssortmentAdapter assortmentAdapter;
 
     public AssortmentFragment() {
@@ -145,19 +145,13 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
         return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
     }
 
-    public AbstractDataProvider getDataProvider() {
+    public AbstractItemProvider getDataProvider() {
         return ((AssortmentActivity) getActivity()).getDataProvider();
     }
 
-
-
-
-
-
-
     @Override
-    public void saveComment(String comments, int groupPosition) {
-        assortmentAdapter.updateProvider(comments, groupPosition);
+    public void saveUserChangesOfGroup(String comment, int amount, String unit, int groupPosition) {
+        assortmentAdapter.updateProvider(comment, amount, unit, groupPosition);
         assortmentAdapter.notifyDataSetChanged();
     }
 

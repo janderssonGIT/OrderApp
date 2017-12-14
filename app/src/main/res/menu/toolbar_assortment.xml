@@ -13,8 +13,8 @@
             app:showAsAction="ifRoom" />
 
         <item
-            android:id="@+id/cartButton"
-            android:icon="@drawable/ic_shop_icon"
+            android:id="@+id/orderButton"
+            android:icon="@drawable/ic_forward_white"
             android:title="Cart"
             app:showAsAction="ifRoom" />
         <!--app:actionViewClass="android.support.v7.widget.AppCompatButton-->

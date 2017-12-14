@@ -1,8 +1,6 @@
 package com.itintegration.orderapp.ui.assortment;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +18,8 @@ import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemAda
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemViewHolder;
 
 import com.itintegration.orderapp.R;
-import com.itintegration.orderapp.data.AppDataManager;
-import com.itintegration.orderapp.ui.assortmentprovider.AbstractDataProvider;
-import com.itintegration.orderapp.ui.assortmentprovider.DataProvider;
+import com.itintegration.orderapp.ui.assortmentitemprovider.AbstractItemProvider;
+import com.itintegration.orderapp.ui.assortmentitemprovider.ItemProvider;
 import com.itintegration.orderapp.util.ExpandableItemIndicator;
 
 import java.util.List;
@@ -31,23 +28,23 @@ import java.util.Locale;
 class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.GroupViewHolder,
         AssortmentAdapter.ChildViewHolder> {
 
-    private AbstractDataProvider mProvider;
-    private List<String> unitList;
+    private AbstractItemProvider mProvider;
     private Context mContext;
     private AssortmentAdapterCallback callback;
 
-    void updateProvider(String comments, int groupPosition) {
-        mProvider.getChildItem(groupPosition).setComment(comments);
+    void updateProvider(String comments, int amount, String unit, int groupPosition) {
+        mProvider.getItem(groupPosition).setComment(comments);
+        mProvider.getItem(groupPosition).setAmount(amount);
+        mProvider.getItem(groupPosition).setUnit(unit);
     }
 
     public interface AssortmentAdapterCallback {
-        void saveComment(String comment, int groupPositionS);
+        void saveUserChangesOfGroup(String comment, int amount, String unit, int groupPositionS);
     }
 
-    AssortmentAdapter(Context context, AbstractDataProvider dataProvider, AssortmentAdapterCallback cb) {
+    AssortmentAdapter(Context context, AbstractItemProvider dataProvider, AssortmentAdapterCallback cb) {
         mProvider = dataProvider;
         mContext = context;
-        unitList = new AppDataManager().generateUnitList();
         callback = cb;
 
         setHasStableIds(true);
@@ -106,12 +103,6 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
 
     @Override
     public boolean onCheckCanExpandOrCollapseGroup(GroupViewHolder holder, int groupPosition, int x, int y, boolean expand) {
-        if (mProvider.getGroupItem(groupPosition).isPinned()) {
-            return false;
-        }
-        if (!(holder.itemView.isEnabled() && holder.itemView.isClickable())) {
-            return false;
-        }
         return true;
     }
 
@@ -127,12 +118,12 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
 
     @Override
     public long getGroupId(int groupPosition) {
-        return mProvider.getGroupItem(groupPosition).getGroupId();
+        return mProvider.getItem(groupPosition).getItemId();
     }
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return mProvider.getChildItem(groupPosition).getChildId();
+        return mProvider.getItem(groupPosition).getItemId();
     }
 
     @Override
@@ -161,7 +152,7 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
 
     @Override
     public void onBindGroupViewHolder(GroupViewHolder holder, int groupPosition, int viewType) {
-        final DataProvider.GroupData data = mProvider.getGroupItem(groupPosition);
+        final ItemProvider.ItemData data = mProvider.getItem(groupPosition);
         holder.mTextViewHeaderA.setText(data.getProductName());
         holder.mTextViewHeaderB.setText(data.getProductBarcode());
         holder.itemView.setClickable(true);
@@ -193,17 +184,17 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
     @Override
     public void onBindChildViewHolder(final ChildViewHolder holder, final int groupPosition, int childPosition, int viewType) {
         String stringDouble;
-        final DataProvider.ChildData item = mProvider.getChildItem(groupPosition);
+        final ItemProvider.ItemData item = mProvider.getItem(groupPosition);
 
-            stringDouble = Double.toString(item.getTotal());
+        stringDouble = Double.toString(item.getTotal());
         holder.mTextViewPrelimLager.setText(stringDouble);
-            stringDouble = Integer.toString(item.getAmount());
+        stringDouble = Integer.toString(item.getAmount());
         holder.mEditAmount.setText(stringDouble);
 
         holder.mEditComment.setText(item.getComment().toString());
         holder.mTextViewPrice.setText((String.format(Locale.getDefault(),"%.2f",item.getPrice())));
 
-        setupSpinner(holder); //TODO : Not dynamic
+        setupSpinner(holder, groupPosition);
         setupSaveButton(holder, groupPosition);
         setupOrderButton(holder, groupPosition);
     }
@@ -213,15 +204,29 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
             @Override
             public void onClick(View view) {
                 String cmt = holder.mEditComment.getText().toString();
-                callback.saveComment(cmt, groupPosition);
+                int amt = Integer.parseInt(holder.mEditAmount.getText().toString());
+                String unit = holder.mUnitSpinner.getSelectedItem().toString();
+                callback.saveUserChangesOfGroup(cmt, amt, unit, groupPosition);
             }
         });
     }
 
-    private void setupSpinner(final ChildViewHolder holder) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, unitList);
+    private void setupSpinner(final ChildViewHolder holder, int groupPosition) {
+        ArrayAdapter<String> adapter;
+        List<String> unitData = mProvider.getUnitData();
+
+        adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, unitData);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         holder.mUnitSpinner.setAdapter(adapter);
+
+        //set default position if user selection exists.
+        if (!mProvider.getItem(groupPosition).getUnit().equals("")) {
+            for (int i = 0; i < unitData.size(); i++) {
+                if(mProvider.getItem(groupPosition).getUnit().equals(unitData.get(i))) {
+                    holder.mUnitSpinner.setSelection(i);
+                }
+            }
+        }
     }
 
     private void setupOrderButton(final ChildViewHolder holder, final int groupPosition) {

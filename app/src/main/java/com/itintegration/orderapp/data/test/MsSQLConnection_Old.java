@@ -1,4 +1,4 @@
-package com.itintegration.orderapp.service;
+package com.itintegration.orderapp.data.test;
 
 import android.annotation.SuppressLint;
 import android.os.StrictMode;
@@ -14,7 +14,7 @@ import java.util.List;
  *
  */
 
-public class DebugMsSQLConnection {
+public class MsSQLConnection_Old {
 
     @SuppressWarnings("all")
     private String IP = "172.18.40.196:50085/SQLEXPRESS";
