@@ -36,6 +36,7 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
         mProvider.getItem(groupPosition).setComment(comments);
         mProvider.getItem(groupPosition).setAmount(amount);
         mProvider.getItem(groupPosition).setUnit(unit);
+        notifyDataSetChanged();
     }
 
     public interface AssortmentAdapterCallback {
@@ -46,7 +47,6 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
         mProvider = dataProvider;
         mContext = context;
         callback = cb;
-
         setHasStableIds(true);
     }
 

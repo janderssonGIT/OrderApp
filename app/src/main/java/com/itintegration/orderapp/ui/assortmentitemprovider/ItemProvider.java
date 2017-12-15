@@ -10,7 +10,7 @@ public class ItemProvider extends AbstractItemProvider {
 
     private List<ItemData> mData;
 
-    ItemProvider() {
+    public ItemProvider() {
         mData = new LinkedList<>();
         List<ArticleSwe> artList = new GenerateArticleData().generateArticleList();
 

@@ -5,6 +5,8 @@ import android.content.res.Resources;
 
 import com.itintegration.orderapp.data.model.User;
 import com.itintegration.orderapp.di.ApplicationContext;
+import com.itintegration.orderapp.ui.assortmentitemprovider.AbstractItemProvider;
+import com.itintegration.orderapp.ui.assortmentitemprovider.ItemProvider;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,6 +17,7 @@ public class DataManager {
     private Context mContext;
     private DbHelper mDbHelper;
     private SharedPrefsHelper mSharedPrefsHelper;
+    private ItemProvider mItemProvider;
 
     @Inject
     public DataManager(@ApplicationContext Context context,
@@ -23,6 +26,7 @@ public class DataManager {
         mContext = context;
         mDbHelper = dbHelper;
         mSharedPrefsHelper = sharedPrefsHelper;
+        mItemProvider = new ItemProvider();
     }
 
     //SharedPrefs seem to be some sort of global HashMap?
@@ -40,5 +44,10 @@ public class DataManager {
 
     public User getUser(Long userId) throws Resources.NotFoundException, NullPointerException {
         return mDbHelper.getUser(userId);
+    }
+
+    //TODO : Remove. Used for early hardcoded view testing.
+    public AbstractItemProvider getDataProvider() {
+        return mItemProvider;
     }
 }

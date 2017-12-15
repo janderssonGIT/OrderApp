@@ -11,19 +11,44 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.itintegration.orderapp.OrderApp;
 import com.itintegration.orderapp.R;
+import com.itintegration.orderapp.data.DataManager;
+import com.itintegration.orderapp.di.component.ActivityComponent;
+import com.itintegration.orderapp.di.component.DaggerActivityComponent;
+import com.itintegration.orderapp.di.module.ActivityModule;
 import com.itintegration.orderapp.ui.assortmentitemprovider.AbstractItemProvider;
 import com.itintegration.orderapp.ui.assortmentitemprovider.ItemProviderFragment;
 
-public class AssortmentActivity extends AppCompatActivity {
+import javax.inject.Inject;
+
+public class AssortmentActivity extends AppCompatActivity implements AssortmentFragment.Callback {
     private static final String FRAGMENT_TAG_DATA_PROVIDER = "data provider";
     private static final String FRAGMENT_LIST_VIEW = "list view";
     private Menu mOptionsMenu;
+
+    @Inject
+    DataManager mDataManager;
+
+    private ActivityComponent activityComponent;
+
+    //dagger 2
+    public ActivityComponent getActivityComponent() {
+        if (activityComponent == null) {
+            activityComponent = DaggerActivityComponent.builder()
+                    .activityModule(new ActivityModule(this))
+                    .applicationComponent(OrderApp.get(this).getComponent())
+                    .build();
+        }
+        return activityComponent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assortment_container);
+        getActivityComponent().inject(this);
+
         setupToolbar();
 
         if (savedInstanceState == null) {
@@ -57,6 +82,13 @@ public class AssortmentActivity extends AppCompatActivity {
         sv.setMaxWidth(Integer.MAX_VALUE);
         return true;
     }
+
+    @Override
+    public void onFragmentAttached() {
+
+    }
+
+
 
     /**
      * Vid knapptryck på "retur" knappen, kolla om sökfält innehåller sökfras.

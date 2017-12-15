@@ -33,6 +33,10 @@ import javax.inject.Inject;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
+/**
+ *  Questions about this app can be emailed anytime to andersson.jim.sweden@gmail.com and I'll do my best to answer them.
+ */
+
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Inject
@@ -40,7 +44,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private ActivitySignInBinding mBinding;
     private ActivityComponent activityComponent;
-
 
     //dagger 2
     public ActivityComponent getActivityComponent() {
@@ -74,19 +77,20 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void signIn() {
-        //login with AsyncTask
         TextInputEditText etUser = findViewById(R.id.emailEditText);
         TextInputEditText etPass = findViewById(R.id.passwordEditText);
         String user = etUser.getText().toString();
         String pass = etPass.getText().toString();
 
-
+        //TODO : login with (not yet created) AsyncTask "LoginTask".
+        //run task with parameters user & pass to confirm user access to app
     }
 
 
+    //TODO : Call load() on successful LoginTask result.
     public void load(View view) {
         animateButtonWidth();
-        fadeOutTextAndShowProgressDialog(); // TODO : to be used on conjunction with LoginTask?
+        fadeOutTextAndShowProgressDialog(); // TODO : Put this progressDialog to live between "OnPreExecute" and "OnPostExecute" in the LoginTask. Remove from load()
         nextAction();
     }
 
@@ -189,7 +193,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-
             }
         }).start();
     }
@@ -209,7 +212,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void loadImage() {
-        Glide.with(this).load("https://i.pinimg.com/736x/c1/a2/c6/c1a2c61f248a50db6243ad526f94f3db--mobile-wallpaper-star-wars-wallpaper.jpg") // TODO : Dynamic source or fixed?
+        Glide.with(this).load("https://i.pinimg.com/736x/c1/a2/c6/c1a2c61f248a50db6243ad526f94f3db--mobile-wallpaper-star-wars-wallpaper.jpg") // TODO : Make dynamic depending on user.
                 .into(mBinding.background);
     }
 

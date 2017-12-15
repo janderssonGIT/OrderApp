@@ -1,5 +1,6 @@
 package com.itintegration.orderapp.ui.assortment;
 
+import android.content.Context;
 import android.graphics.drawable.NinePatchDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.itintegration.orderapp.OrderApp;
 import com.itintegration.orderapp.R;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.RefactoredDefaultItemAnimator;
@@ -20,8 +22,14 @@ import com.h6ah4i.android.widget.advrecyclerview.decoration.ItemShadowDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
+import com.itintegration.orderapp.data.DataManager;
+import com.itintegration.orderapp.di.component.ActivityComponent;
+import com.itintegration.orderapp.di.component.DaggerActivityComponent;
+import com.itintegration.orderapp.di.module.ActivityModule;
 import com.itintegration.orderapp.ui.assortmentitemprovider.AbstractItemProvider;
 import com.itintegration.orderapp.ui.assortment.AssortmentAdapter.AssortmentAdapterCallback;
+
+import javax.inject.Inject;
 
 public class AssortmentFragment extends Fragment implements RecyclerViewExpandableItemManager.OnGroupCollapseListener,
         RecyclerViewExpandableItemManager.OnGroupExpandListener, AssortmentAdapterCallback {
@@ -32,17 +40,43 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewExpandableItemManager mRecyclerViewExpandableItemManager;
-    private AbstractItemProvider mProvider;
     private AssortmentAdapter assortmentAdapter;
+    private AssortmentActivity mActivity;
+    //private AbstractItemProvider mProvider;
+
+    @Inject
+    DataManager mDataManager;
+
+    //dagger 2
+    public ActivityComponent getActivityComponent() {
+        if (mActivity != null) {
+            return mActivity.getActivityComponent();
+        }
+        return null;
+    }
 
     public AssortmentFragment() {
         super();
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof AssortmentActivity) {
+            AssortmentActivity activity = (AssortmentActivity) context;
+            this.mActivity = activity;
+            activity.onFragmentAttached();
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mProvider = getDataProvider();
+//        mProvider = getDataProvider();
+        ActivityComponent component = getActivityComponent();
+        if (component != null) {
+            component.inject(this);
+        }
     }
 
     @Override
@@ -64,20 +98,16 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
         mRecyclerViewExpandableItemManager.setOnGroupCollapseListener(this);
 
         //adapter
-        assortmentAdapter = new AssortmentAdapter(this.getContext(), mProvider, AssortmentFragment.this);
+        assortmentAdapter = new AssortmentAdapter(this.getContext(), mDataManager.getDataProvider(), AssortmentFragment.this);
         mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(assortmentAdapter); // wrap for expanding
         final GeneralItemAnimator animator = new RefactoredDefaultItemAnimator();
 
-        // Change animations are enabled by default since support-v7-recyclerview v22.
-        // Need to disable them when using animation indicator.
         animator.setSupportsChangeAnimations(false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mWrappedAdapter);  // requires *wrapped* adapter
         mRecyclerView.setItemAnimator(animator);
         mRecyclerView.setHasFixedSize(false);
 
-        //additional decorations
-        //noinspection StatementWithEmptyBody
         if (supportsViewElevation()) {
             // Lollipop or later has native drop shadow feature. ItemShadowDecorator is not required.
         } else {
@@ -91,8 +121,6 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        // save current state to support screen rotation, etc...
         if (mRecyclerViewExpandableItemManager != null) {
             outState.putParcelable(
                     SAVED_STATE_EXPANDABLE_ITEM_MANAGER,
@@ -145,14 +173,19 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
         return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
     }
 
-    public AbstractItemProvider getDataProvider() {
-        return ((AssortmentActivity) getActivity()).getDataProvider();
-    }
+//    public AbstractItemProvider getDataProvider() {
+//        return ((AssortmentActivity) getActivity()).getDataProvider();
+//    }
 
     @Override
     public void saveUserChangesOfGroup(String comment, int amount, String unit, int groupPosition) {
         assortmentAdapter.updateProvider(comment, amount, unit, groupPosition);
-        assortmentAdapter.notifyDataSetChanged();
+    }
+
+    public interface Callback {
+
+        void onFragmentAttached();
+
     }
 
 
