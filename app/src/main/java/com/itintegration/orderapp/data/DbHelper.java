@@ -10,8 +10,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.itintegration.orderapp.data.model.User;
+import com.itintegration.orderapp.data.test.MsSQLConnection;
 import com.itintegration.orderapp.di.ApplicationContext;
 import com.itintegration.orderapp.di.DatabaseInfo;
+
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -25,11 +30,15 @@ public class DbHelper extends SQLiteOpenHelper{
     public static final String USER_COLUMN_USER_CREATED_AT = "created_at";
     public static final String USER_COLUMN_USER_UPDATED_AT = "updated_at";
 
+    private MsSQLConnection connection;
+
     @Inject
     public DbHelper(@ApplicationContext Context context,
                     @DatabaseInfo String dbName,
-                    @DatabaseInfo Integer version) {
+                    @DatabaseInfo Integer version,
+                    MsSQLConnection connection) {
         super(context, dbName, null, version);
+        this.connection = connection;
     }
 
     @Override
@@ -108,5 +117,21 @@ public class DbHelper extends SQLiteOpenHelper{
 
     private String getCurrentTimeStamp() {
         return String.valueOf(System.currentTimeMillis() / 1000);
+    }
+
+    public List<String> getArticlesBySearchString(String term) {
+        try {
+            String query = "select * FROM Flerlagerpluis.dbo.ArtiklarSwe";
+            query+= " WHERE Benämning LIKE";
+            query+= "'" + term + "%'";
+
+            Statement stmt = connection.CONN().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+
+        } catch (Exception e) {
+
+        }
+        return null;
     }
 }

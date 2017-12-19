@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.itintegration.orderapp.data.test.MsSQLConnection_Old;
+import com.itintegration.orderapp.data.test.MsSQLConnection;
 import com.itintegration.orderapp.R;
 
 import java.sql.Connection;
@@ -23,7 +23,7 @@ import java.sql.Statement;
 public class SettingsActivity extends AppCompatActivity {
 
     private Context mContext;
-    private MsSQLConnection_Old connectionClass;
+    private MsSQLConnection connectionClass;
     private EditText edtuserid, edtpass;
     private Button btnlogin;
     private ProgressBar pbbar;
@@ -39,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupConnectionUI() {
-        connectionClass = new MsSQLConnection_Old();
+        connectionClass = new MsSQLConnection(mContext);
         edtuserid = findViewById(R.id.edtuserid);
         edtpass = findViewById(R.id.edtpass);
         btnlogin = findViewById(R.id.btnlogin);
@@ -51,7 +51,6 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DoLogin doLogin = new DoLogin();
                 doLogin.execute("");
-
             }
         });
 
@@ -110,7 +109,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (con == null) {
                     z = "Error in connection with SQL server";
                 } else {
-                    String query = "select * from Users where Name='" + userid + "' and Password='" + password + "'";
+                    String query = "select * from Users"; // where Name='" + userid + "' and Password='" + password + "'
                     Statement stmt = con.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
 

@@ -8,6 +8,8 @@ import com.itintegration.orderapp.di.ApplicationContext;
 import com.itintegration.orderapp.ui.assortmentitemprovider.AbstractItemProvider;
 import com.itintegration.orderapp.ui.assortmentitemprovider.ItemProvider;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -29,7 +31,6 @@ public class DataManager {
         mItemProvider = new ItemProvider();
     }
 
-    //SharedPrefs seem to be some sort of global HashMap?
     public void saveAccessToken(String accessToken) {
         mSharedPrefsHelper.put(SharedPrefsHelper.PREF_KEY_ACCESS_TOKEN, accessToken);
     }
@@ -49,5 +50,9 @@ public class DataManager {
     //TODO : Remove. Used for early hardcoded view testing.
     public AbstractItemProvider getDataProvider() {
         return mItemProvider;
+    }
+
+    public List<String> submitArticleSearchString(String query) {
+        return mDbHelper.getArticlesBySearchString(query);
     }
 }

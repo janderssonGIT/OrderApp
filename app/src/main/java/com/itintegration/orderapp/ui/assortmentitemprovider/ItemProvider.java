@@ -44,4 +44,13 @@ public class ItemProvider extends AbstractItemProvider {
     public List<String> getUnitData() {
         return new GenerateArticleData().generateUnitList();
     }
+
+    @Override
+    public boolean isEmpty() {
+//        if (getGroupCount() == 0) {
+//            return true;
+//        }
+//        return false;
+        return true;
+    }
 }

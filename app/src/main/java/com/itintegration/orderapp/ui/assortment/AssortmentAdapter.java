@@ -32,10 +32,15 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
     private Context mContext;
     private AssortmentAdapterCallback callback;
 
-    void updateProvider(String comments, int amount, String unit, int groupPosition) {
+    void applyUserChange(String comments, int amount, String unit, int groupPosition) {
         mProvider.getItem(groupPosition).setComment(comments);
         mProvider.getItem(groupPosition).setAmount(amount);
         mProvider.getItem(groupPosition).setUnit(unit);
+        notifyDataSetChanged();
+    }
+
+    void applySearchResult(Object obj) {
+        //TODO : Implement list and remove ItemProvider.
         notifyDataSetChanged();
     }
 
@@ -194,6 +199,7 @@ class AssortmentAdapter extends AbstractExpandableItemAdapter<AssortmentAdapter.
         holder.mEditComment.setText(item.getComment().toString());
         holder.mTextViewPrice.setText((String.format(Locale.getDefault(),"%.2f",item.getPrice())));
 
+        //TODO : Declaring listeners in onBind is bad practice, as onBind is called many times in recycleView implementations.
         setupSpinner(holder, groupPosition);
         setupSaveButton(holder, groupPosition);
         setupOrderButton(holder, groupPosition);

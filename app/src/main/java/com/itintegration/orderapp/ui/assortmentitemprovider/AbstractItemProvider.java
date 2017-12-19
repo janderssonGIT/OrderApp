@@ -4,6 +4,8 @@ import java.util.List;
 
 public abstract class AbstractItemProvider {
 
+
+
     public static abstract class ItemData {
         public abstract long getItemId();
         public abstract String getProductName();
@@ -21,4 +23,5 @@ public abstract class AbstractItemProvider {
     public abstract int getGroupCount();
     public abstract AbstractItemProvider.ItemData getItem(int groupPosition);
     public abstract List<String> getUnitData();
+    public abstract boolean isEmpty();
 }

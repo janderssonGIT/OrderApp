@@ -8,6 +8,7 @@ import com.itintegration.orderapp.OrderApp;
 import com.itintegration.orderapp.data.DataManager;
 import com.itintegration.orderapp.data.DbHelper;
 import com.itintegration.orderapp.data.SharedPrefsHelper;
+import com.itintegration.orderapp.data.test.MsSQLConnection;
 import com.itintegration.orderapp.di.ApplicationContext;
 import com.itintegration.orderapp.di.module.ApplicationModule;
 

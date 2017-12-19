@@ -13,8 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.itintegration.orderapp.OrderApp;
 import com.itintegration.orderapp.R;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.RefactoredDefaultItemAnimator;
@@ -24,9 +24,6 @@ import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandab
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
 import com.itintegration.orderapp.data.DataManager;
 import com.itintegration.orderapp.di.component.ActivityComponent;
-import com.itintegration.orderapp.di.component.DaggerActivityComponent;
-import com.itintegration.orderapp.di.module.ActivityModule;
-import com.itintegration.orderapp.ui.assortmentitemprovider.AbstractItemProvider;
 import com.itintegration.orderapp.ui.assortment.AssortmentAdapter.AssortmentAdapterCallback;
 
 import javax.inject.Inject;
@@ -37,12 +34,12 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
     private static final String SAVED_STATE_EXPANDABLE_ITEM_MANAGER = "RecyclerViewExpandableItemManager";
 
     private RecyclerView mRecyclerView;
+    private TextView mEmptyView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewExpandableItemManager mRecyclerViewExpandableItemManager;
     private AssortmentAdapter assortmentAdapter;
     private AssortmentActivity mActivity;
-    //private AbstractItemProvider mProvider;
 
     @Inject
     DataManager mDataManager;
@@ -55,10 +52,6 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
         return null;
     }
 
-    public AssortmentFragment() {
-        super();
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -69,10 +62,13 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
         }
     }
 
+    public AssortmentFragment() {
+        super();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        mProvider = getDataProvider();
         ActivityComponent component = getActivityComponent();
         if (component != null) {
             component.inject(this);
@@ -87,10 +83,17 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        //noinspection ConstantConditions
         mRecyclerView = getView().findViewById(R.id.recycler_view);
+        mEmptyView = getView().findViewById(R.id.empty_view);
         mLayoutManager = new LinearLayoutManager(getContext());
+
+        if (mDataManager.getDataProvider().isEmpty()) {
+            mRecyclerView.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
+        } else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.GONE);
+        }
 
         final Parcelable eimSavedState = (savedInstanceState != null) ? savedInstanceState.getParcelable(SAVED_STATE_EXPANDABLE_ITEM_MANAGER) : null;
         mRecyclerViewExpandableItemManager = new RecyclerViewExpandableItemManager(eimSavedState);
@@ -122,8 +125,7 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mRecyclerViewExpandableItemManager != null) {
-            outState.putParcelable(
-                    SAVED_STATE_EXPANDABLE_ITEM_MANAGER,
+            outState.putParcelable(SAVED_STATE_EXPANDABLE_ITEM_MANAGER,
                     mRecyclerViewExpandableItemManager.getSavedState());
         }
     }
@@ -173,20 +175,17 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
         return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
     }
 
-//    public AbstractItemProvider getDataProvider() {
-//        return ((AssortmentActivity) getActivity()).getDataProvider();
-//    }
-
     @Override
     public void saveUserChangesOfGroup(String comment, int amount, String unit, int groupPosition) {
-        assortmentAdapter.updateProvider(comment, amount, unit, groupPosition);
+        assortmentAdapter.applyUserChange(comment, amount, unit, groupPosition);
     }
 
     public interface Callback {
-
         void onFragmentAttached();
-
     }
 
-
+//    public void retrieveAndApplySearchStringResult() {
+//        Object obj = mDataManager.getSearchStringResult();
+//        assortmentAdapter.applySearchResult(obj);
+//    }
 }

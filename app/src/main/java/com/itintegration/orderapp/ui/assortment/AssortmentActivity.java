@@ -2,7 +2,7 @@ package com.itintegration.orderapp.ui.assortment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.itintegration.orderapp.OrderApp;
 import com.itintegration.orderapp.R;
@@ -17,53 +18,44 @@ import com.itintegration.orderapp.data.DataManager;
 import com.itintegration.orderapp.di.component.ActivityComponent;
 import com.itintegration.orderapp.di.component.DaggerActivityComponent;
 import com.itintegration.orderapp.di.module.ActivityModule;
-import com.itintegration.orderapp.ui.assortmentitemprovider.AbstractItemProvider;
-import com.itintegration.orderapp.ui.assortmentitemprovider.ItemProviderFragment;
+import com.itintegration.orderapp.tasks.TaskFragment;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
-public class AssortmentActivity extends AppCompatActivity implements AssortmentFragment.Callback {
-    private static final String FRAGMENT_TAG_DATA_PROVIDER = "data provider";
+public class AssortmentActivity extends AppCompatActivity implements AssortmentFragment.Callback, TaskFragment.TaskCallbacks {
     private static final String FRAGMENT_LIST_VIEW = "list view";
+    private static final String TAG_TASK_FRAGMENT = "task_fragment";
     private Menu mOptionsMenu;
+    private SearchView mSearchView;
+    private ActivityComponent activityComponent;
+    private TaskFragment mTaskFragment;
+    private ProgressBar mProgressBar;
 
     @Inject
     DataManager mDataManager;
-
-    private ActivityComponent activityComponent;
-
-    //dagger 2
-    public ActivityComponent getActivityComponent() {
-        if (activityComponent == null) {
-            activityComponent = DaggerActivityComponent.builder()
-                    .activityModule(new ActivityModule(this))
-                    .applicationComponent(OrderApp.get(this).getComponent())
-                    .build();
-        }
-        return activityComponent;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assortment_container);
         getActivityComponent().inject(this);
-
         setupToolbar();
 
+        FragmentManager fm = getSupportFragmentManager();
+        mTaskFragment = (TaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
+
+        if (mTaskFragment == null) {
+            mTaskFragment = new TaskFragment();
+            getSupportFragmentManager().beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
+        }
+
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(new ItemProviderFragment(), FRAGMENT_TAG_DATA_PROVIDER)
-                    .commit();
-            getSupportFragmentManager().beginTransaction()
+            fm.beginTransaction()
                     .add(R.id.container, new AssortmentFragment(), FRAGMENT_LIST_VIEW)
                     .commit();
         }
-    }
-
-    public AbstractItemProvider getDataProvider() {
-        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_DATA_PROVIDER);
-        return ((ItemProviderFragment) fragment).getDataProvider();
     }
 
     private void setupToolbar() {
@@ -78,9 +70,33 @@ public class AssortmentActivity extends AppCompatActivity implements AssortmentF
     public boolean onCreateOptionsMenu(Menu menu) {
         mOptionsMenu = menu;
         getMenuInflater().inflate(R.menu.toolbar_assortment, mOptionsMenu);
-        SearchView sv = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        sv.setMaxWidth(Integer.MAX_VALUE);
+        setupSearchView();
         return true;
+    }
+
+    private void setupSearchView() {
+        mSearchView = (SearchView) mOptionsMenu.findItem(R.id.action_search).getActionView();
+        mSearchView.setMaxWidth(Integer.MAX_VALUE);
+        mSearchView.setIconified(true);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mTaskFragment.startSearchStringTask(query);
+
+                List<String> list = mDataManager.submitArticleSearchString(query);
+
+                //get result list via task or direct call
+
+                //get it to adapter and notify.
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
     }
 
     @Override
@@ -88,20 +104,24 @@ public class AssortmentActivity extends AppCompatActivity implements AssortmentF
 
     }
 
-
-
-    /**
-     * Vid knapptryck på "retur" knappen, kolla om sökfält innehåller sökfras.
-     * Vid 'TRUE'; rensa sökfält, om FALSE; utför RETUR till föregående vy.
-     */
+    //dagger 2
+    public ActivityComponent getActivityComponent() {
+        if (activityComponent == null) {
+            activityComponent = DaggerActivityComponent.builder()
+                    .activityModule(new ActivityModule(this))
+                    .applicationComponent(OrderApp.get(this).getComponent())
+                    .build();
+        }
+        return activityComponent;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                SearchView sv = (SearchView) mOptionsMenu.findItem(R.id.action_search).getActionView();
-                if (sv.getQuery().length() > 0) {
-                    sv.setQuery("", true);
+                //clear searchView content at 1st press on 'home'
+                if (mSearchView.getQuery().length() > 0) {
+                    mSearchView.setQuery("", true);
                     return false;
                 } else {
                     onBackPressed();
@@ -111,8 +131,13 @@ public class AssortmentActivity extends AppCompatActivity implements AssortmentF
             case R.id.orderButton:
                 Button btn = (Button) mOptionsMenu.findItem(R.id.orderButton);
 
-                //TODO : Do activity transit? or switch out fragment? Hmmm. Could recreate same list with a new dataset? much better. And switch title of toolbar.
+                //TODO : Do activity transit? or switch out fragment? Could recreate same list with a new dataset? And switch title of toolbar.
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSearchResult() {
+
     }
 }
