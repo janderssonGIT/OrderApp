@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/deleteOK"
+        android:title="@string/deleteOK"
+        android:visible="false"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/deleteCancel"
+        android:visible="false"
+        android:title="@string/deleteCancel"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/dropdownItem"
+        android:icon="@drawable/ic_dropdown"
+        android:title="@string/dropDown"
+        app:showAsAction="always" />
+</menu>

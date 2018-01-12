@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <include
-            layout="@layout/toolbar_main"
+            layout="@layout/toolbar_layout"
             android:id="@+id/toolbar_admin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
 
-            android:background="@color/colorAccent"
+            android:background="@color/colorPrimary"
             android:padding="10dp"
             android:text="Logga in"
             android:textColor="#ffffff"

@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.itintegration.orderapp.data.model.User;
+import com.itintegration.orderapp.data.provider.SearchArticleProvider;
+import com.itintegration.orderapp.data.provider.OrderProvider;
 import com.itintegration.orderapp.di.ApplicationContext;
-import com.itintegration.orderapp.ui.assortmentitemprovider.AbstractItemProvider;
-import com.itintegration.orderapp.ui.assortmentitemprovider.ItemProvider;
-
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,7 +17,8 @@ public class DataManager {
     private Context mContext;
     private DbHelper mDbHelper;
     private SharedPrefsHelper mSharedPrefsHelper;
-    private ItemProvider mItemProvider;
+    private SearchArticleProvider SearchArticleProvider;
+    private OrderProvider OrderProvider;
 
     @Inject
     public DataManager(@ApplicationContext Context context,
@@ -28,7 +27,8 @@ public class DataManager {
         mContext = context;
         mDbHelper = dbHelper;
         mSharedPrefsHelper = sharedPrefsHelper;
-        mItemProvider = new ItemProvider();
+        SearchArticleProvider = new SearchArticleProvider();
+        OrderProvider = new OrderProvider();
     }
 
     public void saveAccessToken(String accessToken) {
@@ -47,12 +47,21 @@ public class DataManager {
         return mDbHelper.getUser(userId);
     }
 
-    //TODO : Remove. Used for early hardcoded view testing.
-    public AbstractItemProvider getDataProvider() {
-        return mItemProvider;
+    public SearchArticleProvider getSearchArticleProvider() {
+        return SearchArticleProvider;
     }
 
-    public List<String> submitArticleSearchString(String query) {
-        return mDbHelper.getArticlesBySearchString(query);
+    public SearchArticleProvider submitArticleSearchString(String query) {
+        SearchArticleProvider = mDbHelper.getArticlesBySearchString(query);
+        return SearchArticleProvider;
     }
+
+    public OrderProvider getOrderProvider() {
+        return OrderProvider;
+    }
+
+    public void setOrderProvider(OrderProvider mOrderProvider) {
+        this.OrderProvider = mOrderProvider;
+    }
+
 }

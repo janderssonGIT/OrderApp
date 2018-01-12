@@ -33,10 +33,6 @@ import javax.inject.Inject;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
-/**
- *  Questions about this app can be emailed anytime to andersson.jim.sweden@gmail.com and I'll do my best to answer them.
- */
-
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Inject
@@ -90,7 +86,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     //TODO : Call load() on successful LoginTask result.
     public void load(View view) {
         animateButtonWidth();
-        fadeOutTextAndShowProgressDialog(); // TODO : Put this progressDialog to live between "OnPreExecute" and "OnPostExecute" in the LoginTask. Remove from load()
+        // TODO : Put this progressDialog to live between "OnPreExecute" and "OnPostExecute" in the LoginTask. Remove from load()
+        fadeOutTextAndShowProgressDialog();
         nextAction();
     }
 
@@ -145,6 +142,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 revealButton();
                 fadeOutProgressDialog();
                 delayedStartNextActivity();
+                mBinding.signInButton.setVisibility(INVISIBLE);
             }
         }, 1000);
     }
@@ -212,7 +210,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void loadImage() {
-        Glide.with(this).load("https://i.pinimg.com/736x/c1/a2/c6/c1a2c61f248a50db6243ad526f94f3db--mobile-wallpaper-star-wars-wallpaper.jpg") // TODO : Make dynamic depending on user.
+        Glide.with(this).load("https://s-media-cache-ak0.pinimg.com/originals/08/05/b2/0805b2791432c4afd3147364e665dc58.jpg") // TODO : Make dynamic depending on user.
                 .into(mBinding.background);
     }
 

@@ -1,20 +1,15 @@
-package com.itintegration.orderapp.data.test;
+package com.itintegration.orderapp.data.dbconnection;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
 
-import com.itintegration.orderapp.data.DbHelper;
-import com.itintegration.orderapp.data.SharedPrefsHelper;
 import com.itintegration.orderapp.di.ApplicationContext;
-import com.itintegration.orderapp.ui.assortmentitemprovider.ItemProvider;
 
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -31,9 +26,7 @@ public class MsSQLConnection {
         mContext = context;
     }
 
-    @SuppressWarnings("all")
     private String IP = "172.18.40.196:50085/SQLEXPRESS";
-//  private String IP = "TESTSRV/SQLEXPRESS";
     private String CLASS = "net.sourceforge.jtds.jdbc.Driver";
     private String DB = "Flerlagerpluis";
     private String UN = "sa";

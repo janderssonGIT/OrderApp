@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    style="@style/commonListItemStyle"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/child_container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height"
+    android:background="@drawable/bg_swipe_item_neutral">
+
+    <!--TODO : MAKE RelativeLayout instead of this mess-->
+
+        <LinearLayout
+            android:id="@+id/innerMainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:id="@+id/innerLeftLayout"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:background="@color/item_background_blue"
+                android:baselineAligned="false"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:weightSum="10"
+                tools:ignore="NestedWeights" >
+
+                <EditText
+                    android:id="@+id/editComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="7"
+                    android:background="@color/item_background_bright_blue"
+                    android:gravity="top"
+                    android:hint="@string/comment"
+                    android:padding="5dp"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.5"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:text="@string/price"/>
+
+                    <TextView
+                        android:id="@+id/textViewPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:text="5000"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.5"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:text="@string/preLager"/>
+
+                    <TextView
+                        android:id="@+id/textViewPrelimLager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:text="200"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/innerRightLayout"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:orientation="vertical"
+                android:background="@color/item_background_blue">
+
+                <LinearLayout
+                    android:id="@+id/innerRightTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/item_background_bright_blue"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/textViewAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/amount" />
+
+                    <EditText
+                        android:id="@+id/editAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:ems="5"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:text="0"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/innerRightBottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_margin="5dp"
+                    android:padding="5dp"
+                    android:orientation="horizontal"
+                    android:background="@color/item_background_bright_blue">
+
+                    <TextView
+                        android:id="@+id/textViewUnit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/unit"/>
+
+                    <Spinner
+                        android:id="@+id/unitSpinner"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_gravity="end"/>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/saveButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/save"/>
+
+                <!--<ToggleButton-->
+                    <!--android:id="@+id/addToOrderButton"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="56dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:textOff="@string/addToOrder"-->
+                    <!--android:textOn="@string/removeFromOrder"-->
+                    <!--android:visibility="visible" />-->
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+</FrameLayout>

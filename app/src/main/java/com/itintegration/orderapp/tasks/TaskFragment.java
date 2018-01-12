@@ -13,6 +13,11 @@ import com.itintegration.orderapp.ui.assortment.AssortmentActivity;
 
 import javax.inject.Inject;
 
+/*
+ * This website https://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html
+ * contains the information you need to understand the purpose of this Fragment.
+ */
+
 public class TaskFragment extends Fragment {
 
     public interface TaskCallbacks {
@@ -67,9 +72,9 @@ public class TaskFragment extends Fragment {
         mCallbacks = null;
     }
 
-    public void startSearchStringTask(String query) {
+    public void startSearchStringTask(String searchString) {
         searchStringTask = new SearchStringTask();
-        searchStringTask.execute(query);
+        searchStringTask.execute(searchString);
     }
 
     private class SearchStringTask extends AsyncTask<String, Void, Void> {
@@ -84,7 +89,11 @@ public class TaskFragment extends Fragment {
         @Override
         protected Void doInBackground(String... strings) {
             String searchTerm = strings[0];
-            Object obj = mDataManager.submitArticleSearchString(searchTerm);
+            Object result = mDataManager.submitArticleSearchString(searchTerm);
+
+            /* Do something with result and use mCallbacks to return result in the onPostExecute.
+            * other asyntasks can be added in this fragment, and they may have their own interfaces declared inside this class
+            */
 
             return null;
         }

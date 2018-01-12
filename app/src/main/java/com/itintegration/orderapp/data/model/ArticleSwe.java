@@ -1,55 +1,40 @@
-package com.itintegration.orderapp.data.test;
+package com.itintegration.orderapp.data.model;
 
+import com.itintegration.orderapp.data.provider.AbstractArticleProvider;
 
-public class ArticleSwe {
+public class ArticleSwe extends AbstractArticleProvider.ArticleSwe{
 
-    private int id;
+    private String Id;
+    private int itemId;
     private String description;
     private double total;
     private double disponible;
     private String unit;
-    private long barcode;
+    private String barcode;
     private byte outgoing;
     private byte inactive;
     private double price;
-    private int codingCode;
-    private int storageLocation;
+    private long codingCode;
+    private String storageLocation;
     private byte articleMigration;
     private byte sCodeUpdate;
     private byte storageMerchandise;
     private String artGroup;
     private String alternativeDescription;
     private byte packageArticle;
+    private String comment;
+    private int amount;
+    private String userUnit;
+    private boolean addedToCart;
 
-    public ArticleSwe(int id, String description, double total, double disponible, String unit,
-                      long barcode, byte outgoing, byte inactive, double price, int codingCode,
-                      int storageLocation, byte articleMigration, byte sCodeUpdate, byte storageMerchandise,
-                      String artGroup, String alternativeDescription, byte packageArticle) {
-        this.id = id;
-        this.description = description;
-        this.total = total;
-        this.disponible = disponible;
-        this.unit = unit;
-        this.barcode = barcode;
-        this.outgoing = outgoing;
-        this.inactive = inactive;
-        this.price = price;
-        this.codingCode = codingCode;
-        this.storageLocation = storageLocation;
-        this.articleMigration = articleMigration;
-        this.sCodeUpdate = sCodeUpdate;
-        this.storageMerchandise = storageMerchandise;
-        this.artGroup = artGroup;
-        this.alternativeDescription = alternativeDescription;
-        this.packageArticle = packageArticle;
+    public ArticleSwe() {}
+
+    public String getId() {
+        return Id;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String mId) {
+        this.Id = mId;
     }
 
     public String getDescription() {
@@ -84,11 +69,11 @@ public class ArticleSwe {
         this.unit = unit;
     }
 
-    public long getBarcode() {
+    public String getBarcode() {
         return barcode;
     }
 
-    public void setBarcode(long barcode) {
+    public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
 
@@ -116,19 +101,19 @@ public class ArticleSwe {
         this.price = price;
     }
 
-    public int getCodingCode() {
+    public long getCodingCode() {
         return codingCode;
     }
 
-    public void setCodingCode(int codingCode) {
+    public void setCodingCode(long codingCode) {
         this.codingCode = codingCode;
     }
 
-    public int getStorageLocation() {
+    public String getStorageLocation() {
         return storageLocation;
     }
 
-    public void setStorageLocation(int storageLocation) {
+    public void setStorageLocation(String storageLocation) {
         this.storageLocation = storageLocation;
     }
 
@@ -140,11 +125,11 @@ public class ArticleSwe {
         this.articleMigration = articleMigration;
     }
 
-    public byte getsCodeUpdate() {
+    public byte getSCodeUpdate() {
         return sCodeUpdate;
     }
 
-    public void setsCodeUpdate(byte sCodeUpdate) {
+    public void setSCodeUpdate(byte sCodeUpdate) {
         this.sCodeUpdate = sCodeUpdate;
     }
 
@@ -176,9 +161,53 @@ public class ArticleSwe {
         return packageArticle;
     }
 
+    @Override
+    public String getUserComment() {
+        return comment;
+    }
+
+    @Override
+    public void setUserComment(String comment) {
+        this.comment = comment;
+    }
+
+    @Override
+    public int getUserAmount() {
+        return amount;
+    }
+
+    @Override
+    public void setUserAmount(int amount) {
+        this.amount = amount;
+    }
+
+    @Override
+    public String getUserUnit() {
+        return userUnit;
+    }
+
+    @Override
+    public void setUserUnit(String unit) {
+        userUnit = unit;
+    }
+
     public void setPackageArticle(byte packageArticle) {
         this.packageArticle = packageArticle;
     }
 
+    public int getItemId() {
+        return itemId;
+    }
 
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public boolean isMarkedForOrder() {
+        return addedToCart;
+    }
+
+    public void setMarkedForOrder(boolean mAddedToCart) {
+        this.addedToCart = mAddedToCart;
+    }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#4d9aff</color>
+    <color name="colorPrimary">#459371</color>
+    <color name="colorPrimaryDark">#2b5e48</color>
+    <color name="colorAccent">#8fb6a5</color>
 
     <color name="light_font">#b9b9b9</color>
     <color name="grey_font">#ff9e9e9e</color>
@@ -22,8 +22,9 @@
     <color name="item_background_bright_blue">#abcfff</color>
 
 
-    <color name="group_added_to_order">#ff8000</color>
-    <color name="item_added_to_order">#ffa040</color>
+    <color name="group_added_to_order">#ffa448</color>
+    <color name="item_added_to_order">#ffb569</color>
+    <color name="item_added_to_order_bright">#ffc890</color>
 
     <color name="bg_swipe_item_neutral">@android:color/transparent</color>
     <color name="expandable_item_indicator_color">#42000000</color>

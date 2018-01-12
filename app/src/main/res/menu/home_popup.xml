@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/homeDropDownGroup"
+        android:enabled="true"
+        android:visible="true">
+        <item
+            android:id="@+id/popupSettings"
+            android:title="@string/settings"/>
+        <item
+            android:id="@+id/popupLogout"
+            android:title="@string/logout"/>
+    </group>
+</menu>

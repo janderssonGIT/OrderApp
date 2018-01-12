@@ -9,32 +9,27 @@
     <string name="home_order_history">Orderhistorik</string>
     <string name="assortment_title">Sök Artikel</string>
     <string name="assortment_search_hint">Sök artikel</string>
+    <string name="order_title">Hantera order</string>
     <string name="settings">Inställningar</string>
-    <string name="unit">Enhet:</string>s
-    <string name="price">Price: </string>
-    <string name="amount">Amount</string>
+    <string name="unit">Enhet: </string>s
+    <string name="price">Pris: </string>
+    <string name="amount">Antal: </string>
     <string name="preLager">PreLager: </string>
     <string name="addToOrder">Lägg i order</string>
     <string name="removeFromOrder">Ta bort från order</string>
     <string name="comment">Kommentar&#8230;</string>
     <string name="save">Spara</string>
     <string name="no_data_available">Ingen data hämtad.</string>
-
+    <string name="deleteOrderItem">Ta bort orderobjekt</string>
+    <string name="deleteOK">OK</string>
+    <string name="deleteCancel">Avbryt</string>
+    <string name="searchNoSearchResult">Sökning gav inga resultat!</string>
+    <string name="noOrderAdded">Ingen order är tillagd.</string>
+    <string name="dropDown">Order dropdown meny</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    //DEMO
-    <string-array name="sports_array">
-        <item>Shuttle Badminton</item>
-        <item>Tennis</item>
-        <item>FootBall</item>
-        <item>Basket Ball</item>
-        <item>Table Tennis</item>
-        <item>Chess</item>
-        <item>Hockey</item>
-    </string-array>
 
     <string name="lorem_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in

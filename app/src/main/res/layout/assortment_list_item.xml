@@ -3,18 +3,12 @@
     style="@style/commonListItemStyle"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/child_container"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
     android:background="@drawable/bg_swipe_item_neutral">
 
-    <!--MAKE RelativeLayout instead of this mess-->
-
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foreground="?attr/selectableItemBackground"
-        tools:ignore="UselessParent">
+    <!--TODO : MAKE RelativeLayout instead of this mess-->
 
         <LinearLayout
             android:id="@+id/innerMainLayout"
@@ -98,6 +92,7 @@
                 android:background="@color/item_background_blue">
 
                 <LinearLayout
+                    android:id="@+id/innerRightTop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -129,6 +124,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/innerRightBottom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
@@ -149,7 +145,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_gravity="end"/>
-
                 </LinearLayout>
 
                 <Button
@@ -171,7 +166,5 @@
             </LinearLayout>
 
         </LinearLayout>
-
-    </FrameLayout>
 
 </FrameLayout>

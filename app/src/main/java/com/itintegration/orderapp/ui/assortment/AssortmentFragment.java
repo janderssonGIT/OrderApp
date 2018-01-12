@@ -1,8 +1,6 @@
 package com.itintegration.orderapp.ui.assortment;
 
 import android.content.Context;
-import android.graphics.drawable.NinePatchDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -18,11 +16,12 @@ import android.widget.TextView;
 import com.itintegration.orderapp.R;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.RefactoredDefaultItemAnimator;
-import com.h6ah4i.android.widget.advrecyclerview.decoration.ItemShadowDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
 import com.itintegration.orderapp.data.DataManager;
+import com.itintegration.orderapp.data.model.ArticleSwe;
+import com.itintegration.orderapp.data.provider.SearchArticleProvider;
 import com.itintegration.orderapp.di.component.ActivityComponent;
 import com.itintegration.orderapp.ui.assortment.AssortmentAdapter.AssortmentAdapterCallback;
 
@@ -87,47 +86,50 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
         mEmptyView = getView().findViewById(R.id.empty_view);
         mLayoutManager = new LinearLayoutManager(getContext());
 
-        if (mDataManager.getDataProvider().isEmpty()) {
-            mRecyclerView.setVisibility(View.GONE);
-            mEmptyView.setVisibility(View.VISIBLE);
-        } else {
-            mRecyclerView.setVisibility(View.VISIBLE);
-            mEmptyView.setVisibility(View.GONE);
-        }
+        retrieveViewState();
 
         final Parcelable eimSavedState = (savedInstanceState != null) ? savedInstanceState.getParcelable(SAVED_STATE_EXPANDABLE_ITEM_MANAGER) : null;
         mRecyclerViewExpandableItemManager = new RecyclerViewExpandableItemManager(eimSavedState);
         mRecyclerViewExpandableItemManager.setOnGroupExpandListener(this);
         mRecyclerViewExpandableItemManager.setOnGroupCollapseListener(this);
 
-        //adapter
-        assortmentAdapter = new AssortmentAdapter(this.getContext(), mDataManager.getDataProvider(), AssortmentFragment.this);
-        mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(assortmentAdapter); // wrap for expanding
+        assortmentAdapter = new AssortmentAdapter(mRecyclerViewExpandableItemManager, this.getContext(), mDataManager, AssortmentFragment.this);
+        mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(assortmentAdapter);
         final GeneralItemAnimator animator = new RefactoredDefaultItemAnimator();
 
         animator.setSupportsChangeAnimations(false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mWrappedAdapter);  // requires *wrapped* adapter
+        mRecyclerView.setAdapter(mWrappedAdapter);
         mRecyclerView.setItemAnimator(animator);
+        mRecyclerView.setNestedScrollingEnabled(true);
         mRecyclerView.setHasFixedSize(false);
-
-        if (supportsViewElevation()) {
-            // Lollipop or later has native drop shadow feature. ItemShadowDecorator is not required.
-        } else {
-            mRecyclerView.addItemDecoration(new ItemShadowDecorator((NinePatchDrawable) ContextCompat.getDrawable(getContext(), R.drawable.material_shadow_z1)));
-        }
         mRecyclerView.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(getContext(), R.drawable.list_divider_h), true));
-
         mRecyclerViewExpandableItemManager.attachRecyclerView(mRecyclerView);
+    }
+
+    private void retrieveViewState() {
+        if (mDataManager.getSearchArticleProvider().isEmpty()) {
+            mRecyclerView.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
+        } else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        /*
+            Note, I suspect this is the source for unintended bugs with the UI and may be the reason
+            Viewholders get duplicated stable ID's, making the app crash. Commenting this may however result in loss
+            of data whenever the user rotates the phone/emulator. Needs investigation!
+
         if (mRecyclerViewExpandableItemManager != null) {
             outState.putParcelable(SAVED_STATE_EXPANDABLE_ITEM_MANAGER,
                     mRecyclerViewExpandableItemManager.getSavedState());
         }
+        */
     }
 
     @Override
@@ -148,12 +150,12 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
             mWrappedAdapter = null;
         }
         mLayoutManager = null;
-
         super.onDestroyView();
     }
 
     @Override
     public void onGroupCollapse(int groupPosition, boolean fromUser, Object payload) {
+
     }
 
     @Override
@@ -165,27 +167,50 @@ public class AssortmentFragment extends Fragment implements RecyclerViewExpandab
 
     private void adjustScrollPositionOnGroupExpanded(int groupPosition) {
         int childItemHeight = getActivity().getResources().getDimensionPixelSize(R.dimen.list_item_height);
-        int topMargin = (int) (getActivity().getResources().getDisplayMetrics().density * 16); // top-spacing: 16dp
-        int bottomMargin = topMargin; // bottom-spacing: 16dp
-
+        int topMargin = (int) (getActivity().getResources().getDisplayMetrics().density * 16);
+        int bottomMargin = topMargin;
         mRecyclerViewExpandableItemManager.scrollToGroup(groupPosition, childItemHeight, topMargin, bottomMargin);
     }
 
-    private boolean supportsViewElevation() {
-        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
-    }
+    /**
+     * Adapter <-> Fragment actions.
+     */
 
     @Override
     public void saveUserChangesOfGroup(String comment, int amount, String unit, int groupPosition) {
-        assortmentAdapter.applyUserChange(comment, amount, unit, groupPosition);
+        //TODO : Shouldn't save to SearchArticleProvider, but instead the OrderProvider, yet the article may not be added. Perhaps remove and save when adding to order instead?
+
+        mDataManager.getSearchArticleProvider().getArticleItem(groupPosition).setUserComment(comment);
+        mDataManager.getSearchArticleProvider().getArticleItem(groupPosition).setUserAmount(amount);
+        mDataManager.getSearchArticleProvider().getArticleItem(groupPosition).setUserUnit(unit);
+
+        mRecyclerViewExpandableItemManager.notifyGroupItemChanged(groupPosition);
+        mRecyclerViewExpandableItemManager.notifyChildrenOfGroupItemChanged(groupPosition);
     }
 
-    public interface Callback {
-        void onFragmentAttached();
+    @Override
+    public void addToOrder(ArticleSwe article, int groupPosition) {
+        mDataManager.getOrderProvider().addToOrderList(article);
     }
 
-//    public void retrieveAndApplySearchStringResult() {
-//        Object obj = mDataManager.getSearchStringResult();
-//        assortmentAdapter.applySearchResult(obj);
-//    }
+    @Override
+    public void removeFromOrder(int groupPosition) {
+        ArticleSwe art = (ArticleSwe) mDataManager.getSearchArticleProvider().getArticleItem(groupPosition);
+        String Id = art.getId();
+        mDataManager.getOrderProvider().removeFromOrderList(Id);
+
+        mRecyclerViewExpandableItemManager.notifyGroupItemChanged(groupPosition);
+        mRecyclerViewExpandableItemManager.notifyChildrenOfGroupItemChanged(groupPosition);
+    }
+
+    /**
+     * Activity -> Fragment actions.
+     */
+
+    public synchronized void updateProvider() {
+        retrieveViewState();
+        mRecyclerViewExpandableItemManager.collapseAll();
+        assortmentAdapter.notifyDataSetChanged();
+        mRecyclerView.refreshDrawableState();
+    }
 }

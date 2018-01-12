@@ -1,6 +1,7 @@
 package com.itintegration.orderapp.data;
 
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,19 +9,29 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import com.itintegration.orderapp.data.model.ArticleSwe;
 import com.itintegration.orderapp.data.model.User;
-import com.itintegration.orderapp.data.test.MsSQLConnection;
+import com.itintegration.orderapp.data.provider.AbstractArticleProvider;
+import com.itintegration.orderapp.data.provider.SearchArticleProvider;
+import com.itintegration.orderapp.data.dbconnection.MsSQLConnection;
 import com.itintegration.orderapp.di.ApplicationContext;
 import com.itintegration.orderapp.di.DatabaseInfo;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class DbHelper extends SQLiteOpenHelper{
+public class DbHelper extends SQLiteOpenHelper {
+
+    /**
+     * Sqlite methods are for local app storage only and does not access outside sources.
+     * The sqlite methods are currently not in use and is derived from example projects.
+     */
 
     //USER TABLE
     public static final String USER_TABLE_NAME = "users";
@@ -31,6 +42,7 @@ public class DbHelper extends SQLiteOpenHelper{
     public static final String USER_COLUMN_USER_UPDATED_AT = "updated_at";
 
     private MsSQLConnection connection;
+    private int searchIdScrambler = 100;
 
     @Inject
     public DbHelper(@ApplicationContext Context context,
@@ -119,19 +131,55 @@ public class DbHelper extends SQLiteOpenHelper{
         return String.valueOf(System.currentTimeMillis() / 1000);
     }
 
-    public List<String> getArticlesBySearchString(String term) {
+
+    public SearchArticleProvider getArticlesBySearchString(String term) {
+
         try {
             String query = "select * FROM Flerlagerpluis.dbo.ArtiklarSwe";
-            query+= " WHERE Benämning LIKE";
-            query+= "'" + term + "%'";
+            query += " WHERE Benämning LIKE ";
+            query += "'" + term + "%'";
 
             Statement stmt = connection.CONN().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
+            return convertResultSetToList(rs);
 
-        } catch (Exception e) {
-
+        } catch (java.sql.SQLException e) {
+            Log.d("RS-Convert", e.getMessage());
         }
         return null;
     }
+
+    @SuppressLint("UseSparseArrays")
+    public SearchArticleProvider convertResultSetToList(ResultSet rs) throws java.sql.SQLException {
+        List<AbstractArticleProvider.ArticleSwe> list = new ArrayList<>();
+        int i = 0;
+        while (rs.next()) {
+            ArticleSwe articleSwe = new ArticleSwe();
+            articleSwe.setId(rs.getString("ID"));
+            articleSwe.setItemId(i + searchIdScrambler);
+            articleSwe.setDescription(rs.getString("Benämning"));
+            articleSwe.setTotal(rs.getDouble("Total"));
+            articleSwe.setDisponible(rs.getDouble("Disponible"));
+            articleSwe.setUnit(rs.getString("Enhet"));
+            articleSwe.setBarcode(rs.getString("Streckkod"));
+            articleSwe.setOutgoing(rs.getByte("Utgående"));
+            articleSwe.setInactive(rs.getByte("Inaktiv"));
+            articleSwe.setPrice(rs.getDouble("Pris"));
+            articleSwe.setCodingCode(rs.getLong("Konteringskod"));
+            articleSwe.setStorageLocation(rs.getString("LagerPlats"));
+            articleSwe.setArticleMigration(rs.getByte("ArtikelFlytt"));
+            articleSwe.setSCodeUpdate(rs.getByte("ScodeUpdate"));
+            articleSwe.setStorageMerchandise(rs.getByte("Lagervara"));
+            articleSwe.setArtGroup(rs.getString("ArtGroup"));
+            articleSwe.setAlternativeDescription(rs.getString("AnnanBenäm"));
+            articleSwe.setPackageArticle(rs.getByte("PaketArt"));
+            list.add(articleSwe);
+            i++;
+        }
+        SearchArticleProvider provider = new SearchArticleProvider(list);
+        searchIdScrambler += 100;
+        return provider;
+    }
+
 }

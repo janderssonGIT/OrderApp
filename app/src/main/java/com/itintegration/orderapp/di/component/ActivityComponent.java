@@ -5,6 +5,8 @@ import com.itintegration.orderapp.di.module.ActivityModule;
 import com.itintegration.orderapp.tasks.TaskFragment;
 import com.itintegration.orderapp.ui.assortment.AssortmentActivity;
 import com.itintegration.orderapp.ui.assortment.AssortmentFragment;
+import com.itintegration.orderapp.ui.order.OrderActivity;
+import com.itintegration.orderapp.ui.order.OrderFragment;
 import com.itintegration.orderapp.ui.signin.SignInActivity;
 
 import dagger.Component;
@@ -16,5 +18,7 @@ public interface ActivityComponent {
     void inject(SignInActivity signInActivity);
     void inject(AssortmentActivity assortmentActivity);
     void inject(AssortmentFragment assortmentFragment);
+    void inject(OrderActivity orderActivity);
+    void inject(OrderFragment orderFragment);
     void inject(TaskFragment taskFragment);
 }

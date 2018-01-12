@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.itintegration.orderapp.data.test.MsSQLConnection;
+import com.itintegration.orderapp.data.dbconnection.MsSQLConnection;
 import com.itintegration.orderapp.R;
 
 import java.sql.Connection;
@@ -27,6 +27,8 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText edtuserid, edtpass;
     private Button btnlogin;
     private ProgressBar pbbar;
+
+    //TODO : Code in this class may be removed and reworked fully.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
